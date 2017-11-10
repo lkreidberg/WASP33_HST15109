@@ -1,0 +1,17 @@
+11/03/2017:
+downloaded data
+remember to delete files.pic from config directory to read in new files!
+
+11/06/2017:
+fixed wavelength shift (first exposure was staring mode to get right buffer dumps)
+working on getting scatter down - made window bigger. much better!
+
+
+11/07/2017:
+looked at spectroscopic lightcurves -- something is wrong with the binning
+
+TODO:
+fix spectroscopic light curves!
+try even bigger window?
+figure out whether you're double counting leap seconds! 
+
