@@ -1,12 +1,12 @@
 #parameter	fixed		tied		value		lo_lim	lo_val	hi_lim	hi_val
-per		True		True		1.21987016 	False	0.	False	0.
-t0		True		True		2452984.82964	False	0. 	False	0.
-t_secondary	True		True		2452985.439575	False	0.	False	0.
+per		True		True		1.21987089 	False	0.	False	0.
+t0		True		True		2454163.22367	False	0. 	False	0.
+t_secondary	True		True		2454163.833605445	False	0.	False	0.
 w		True		True		90.		False	0.	False	0.
-a		True		True		3.69		False	14.	False	16.
-inc 		True		True		86.2		True	80.	True	90.
+a		True		True		3.65		False	14.	False	16.
+inc 		True		True		87.6		True	80.	True	90.
 rp		False		True		0.1143		True	0.04	True	0.2
-fp		False		True	        0.001		True	0.	False	0.
+fp		True		True	        0.001		True	0.	False	0.
 u1		True		True		0.3		True	0.	True	1.0
 u2		True		True		0.		False	0.	False	0.
 ecc		True		True		0.		False	0.	False	0.
@@ -30,7 +30,12 @@ tau_f		True		True		0.0026		True	0.	False	0.
 E_s0		True		True		100.		True	0.	True	1.e4
 E_f0		True		True		27.		True	0.	True	1.e4	
 f		True		True		10000.		True	0.	False	0.
-
+A1		True		True		0.0		False	0.	False	0.
+P1		True		True		1.0		False	0.	False	0.
+phi1		True		True		1.0		False	0.	False	0.
+A2		True		True		0.0		False	0.	False	0.
+P2		True		True		1.0		False	0.	False	0.
+phi2		True		True		1.0		False	0.	False	0.
 
 
 

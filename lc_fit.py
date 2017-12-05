@@ -16,7 +16,7 @@ import multiprocessing as mp
 import emcee
 import batman
 import pickle
-import corner
+#import corner
 from scipy.stats import norm
 
 sns.set_context("talk")
@@ -92,10 +92,13 @@ class LightCurveData:
 		for i in range(1, len(orb_num)):
 			if (d[i,5] - d[i-1,5]) > 0.5/24.: orb += 1	#stores data as separate visit if gap is longer than 9 hrs; FIXME: what if visits are closer together than 9 hours?
 			orb_num[i] = orb
-		ind = orb_num == 0
+
+
+                #LK change - keep zeroth orbit! 12/1/17
+		"""ind = orb_num == 0
 		d = d[~ind]
 		orb_num = orb_num[~ind]
-		orb_num -= 1
+		orb_num -= 1"""
 
 		if obs_par['lc_type'] == "transit": skip_orbs = parse_skip_orbs(obs_par['skip_orbs_transit'])
 		elif obs_par['lc_type'] == "eclipse": skip_orbs = parse_skip_orbs(obs_par['skip_orbs_eclipse'])
@@ -217,6 +220,12 @@ class FormatParams:
 		self.E_s0 = params[data.par_order['E_s0']*data.nvisit:(1 + data.par_order['E_s0'])*data.nvisit]
 		self.E_f0 = params[data.par_order['E_f0']*data.nvisit:(1 + data.par_order['E_f0'])*data.nvisit]
 		self.f = params[data.par_order['f']*data.nvisit:(1 + data.par_order['f'])*data.nvisit]
+		self.A1 = params[data.par_order['A1']*data.nvisit:(1 + data.par_order['A1'])*data.nvisit]
+		self.P1 = params[data.par_order['P1']*data.nvisit:(1 + data.par_order['P1'])*data.nvisit]
+		self.phi1 = params[data.par_order['phi1']*data.nvisit:(1 + data.par_order['phi1'])*data.nvisit]
+		self.A2 = params[data.par_order['A2']*data.nvisit:(1 + data.par_order['A2'])*data.nvisit]
+		self.P2 = params[data.par_order['P2']*data.nvisit:(1 + data.par_order['P2'])*data.nvisit]
+		self.phi2 = params[data.par_order['phi2']*data.nvisit:(1 + data.par_order['phi2'])*data.nvisit]
 
 def PrintParams(m, data): 
 	print "per\t", m.params[data.par_order['per']*data.nvisit:(1 + data.par_order['per'])*data.nvisit]
@@ -250,6 +259,12 @@ def PrintParams(m, data):
 	print "E_s0\t", m.params[data.par_order['E_s0']*data.nvisit:(1 + data.par_order['E_s0'])*data.nvisit]
 	print "E_f0\t", m.params[data.par_order['E_f0']*data.nvisit:(1 + data.par_order['E_f0'])*data.nvisit]
 	print "f\t", m.params[data.par_order['f']*data.nvisit:(1 + data.par_order['f'])*data.nvisit]
+	print "A1\t", m.params[data.par_order['A1']*data.nvisit:(1 + data.par_order['A1'])*data.nvisit]
+	print "P1\t", m.params[data.par_order['P1']*data.nvisit:(1 + data.par_order['P1'])*data.nvisit]
+	print "phi1\t", m.params[data.par_order['phi1']*data.nvisit:(1 + data.par_order['phi1'])*data.nvisit]
+	print "A2\t", m.params[data.par_order['A2']*data.nvisit:(1 + data.par_order['A2'])*data.nvisit]
+	print "P2\t", m.params[data.par_order['P2']*data.nvisit:(1 + data.par_order['P2'])*data.nvisit]
+	print "phi2\t", m.params[data.par_order['phi2']*data.nvisit:(1 + data.par_order['phi2'])*data.nvisit]
 	print "perror", m.perror
 
 class Model:
@@ -294,8 +309,8 @@ class Model:
 				S = np.ones_like(self.transit_model[ind])+p.scale[i]*data.scan_direction[ind]
 				D = np.ones_like(self.transit_model[ind])+p.r3[i]*data.t_delay[ind]
 				self.all_sys[ind] = data.flux[ind]/self.lc[ind]
-				self.lc[ind] *= (p.c[i]*S + p.v[i]*data.t_vis[ind] + p.v2[i]*data.t_vis[ind]**2)*(1.0-np.exp((-p.r1[i]*data.t_orb[ind]-p.r2[i]-D)))
-				self.data_corr[ind] = data.flux[ind]/((p.c[i]*S + p.v[i]*data.t_vis[ind] + p.v2[i]*data.t_vis[ind]**2)*(1.0-np.exp(-p.r1[i]*data.t_orb[ind]-p.r2[i]-D)))
+				self.lc[ind] *= (p.c[i]*S + p.v[i]*data.t_vis[ind] + p.v2[i]*data.t_vis[ind]**2)*(1.0-np.exp((-p.r1[i]*data.t_orb[ind]-p.r2[i]-D)))*(p.A1[i]*np.sin(2.*np.pi*(data.t_vis[ind] - p.phi1[i])/p.P1[i]))
+				self.data_corr[ind] = data.flux[ind]/((p.c[i]*S + p.v[i]*data.t_vis[ind] + p.v2[i]*data.t_vis[ind]**2)*(1.0-np.exp(-p.r1[i]*data.t_orb[ind]-p.r2[i]-D))*(p.A1[i]*np.sin(2.*np.pi*(data.t_vis[ind] - p.phi1[i])/p.P1[i])))
 				self.sys[ind] = p.c[i]+ p.v[i]*data.t_vis[ind] + p.v2[i]*data.t_vis[ind]**2
 				self.data_normalized[ind] = data.flux[ind]/(1.-np.exp((-p.r1[i]*data.t_orb[ind]-p.r2[i]-D))) - self.transit_model[ind]*p.c[i]*(S-1.)
 			#	E_s = E(data.t_vis[ind], p.eta_s[i], p.f[i], p.E_s[i], p.tau_s[i], p.E_s0[i])
