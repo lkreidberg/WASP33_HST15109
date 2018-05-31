@@ -11,7 +11,7 @@ u1		True		True		0.3		True	0.	True	1.0
 u2		True		True		0.		False	0.	False	0.
 ecc		True		True		0.		False	0.	False	0.
 c		False		False		1.e9		False	0.	False	0.
-v		False		False		-1.0e6		False	0.	False	0.
+v		True            True            0.0		False	0.	False	0.
 v2		True		True		0.		False	0.	False	0.
 r1		True		True		110.0		True	50.	True	200.
 r2		True		True		5.6		True	1.	True	6.

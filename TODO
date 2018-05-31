@@ -1,3 +1,7 @@
 combine obs_par and fit_par? maybe use a dictionary? -- get rid of obs_par
 make a file that stores what is in each column in the raw data (or add headers)
 make separate files for each model (like in POET)
+add from __future__ import print_function, division where necessary
+generally, make compatible with python 3
+switch to scipy.optimize.curve_fit (can accomodate bounds but not tied parameters)
+fix calculation of dof to just include the models you're fitting

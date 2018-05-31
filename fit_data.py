@@ -16,7 +16,7 @@ from scipy.stats import norm
 from read_data import LightCurveData
 from plot_data import plot_raw, plot_fit
 from formatter import FormatParams, PrintParams
-from light_curve_model import Model
+from model import Model
 
 def E(t, eta, f, Etot, tau, E0):
 	return eta*f/(eta*f/Etot + 1./tau) + (E0 - eta*f/(eta*f/Etot + 1./tau))*np.exp(-(eta*f/Etot +1./tau)*t)
