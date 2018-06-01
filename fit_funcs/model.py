@@ -1,5 +1,8 @@
+import sys
+sys.path.insert(0, './models')
 import numpy as np
 from formatter import FormatParams
+from functions import Functions
 from constant import constant
 
 def calc_astro(t, params, data, funcs, visit):
@@ -18,20 +21,6 @@ def calc_sys(t, params, data, funcs, visit):
 
     return flux 
 
-class Functions:
-    def __init__(self, data, funcs):
-        self.astro = []
-        self.astro_porder = []
-        self.sys = []
-        self.sys_porder = []
-
-        for f in funcs:
-            if f == "constant":
-                self.sys.append(constant)
-                self.sys_porder.append(data.par_order['c']*data.nvisit)
-            else:
-                #FIXME return error here
-                return 0
 
 class Model:
     """

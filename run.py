@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0, './fit_funcs')
+sys.path.insert(0, './fit_funcs/models')
 import numpy as np
 import glob
 import os
@@ -28,7 +29,7 @@ def usage():
 
 
 def main():
-    myfuncs = ['constant']
+    myfuncs = ['constant', 'polynomial1']
     #model = ['constant', 'polynomial1', 'eclipse', 'model-ramp']
     #other options: polynomial2, transit, sine, divide-white
 

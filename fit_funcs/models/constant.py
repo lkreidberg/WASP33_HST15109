@@ -1,7 +1,5 @@
 import numpy as np
 
-def constant(t, p, data, v_num):
-
-    C = p[data.par_order['C']*data.nvisit + v_num]
-
-    return 1.+C*np.ones_like(t)
+def constant(t, params):
+    C = params
+    return 1. + C*np.ones_like(t)
