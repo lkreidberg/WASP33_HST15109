@@ -13,7 +13,7 @@ def parse_skip_orbs(x):
 	return np.array(skip_orbs)
 
 
-class LightCurveData:
+class Data:
     """
     Reads in and stores raw light curve data
     Args:
@@ -27,10 +27,9 @@ class LightCurveData:
 	d = np.genfromtxt(data_file)
 	d = d[np.argsort(d[:,5])]   #FIXME (put indices in a file, or add header)
 
-	use_first_exp = False
-        if use_first_exp == False:
-    	    ind = np.diff(d[:,5]) < 30./60./24.	#removes first exposure from each orbit
-	    d = d[1:][ind]
+        #removes first exposure from each orbit
+        ind = np.diff(d[:,5]) < 30./60./24.	
+        d = d[1:][ind]
 
         orb_num = np.zeros_like(d[:,7])	#removes first orbit from each visit 
     	orb = 0
@@ -39,11 +38,6 @@ class LightCurveData:
 	    if (d[i,5] - d[i-1,5]) > 0.5/24.: orb += 1	
             orb_num[i] = orb
 
-        #LK change - keep zeroth orbit! 12/1/17
-        """ind = orb_num == 0
-	d = d[~ind]
-	orb_num = orb_num[~ind]
-	orb_num -= 1"""
 
         if obs_par['lc_type'] == "transit": 
             skip_orbs = parse_skip_orbs(obs_par['skip_orbs_transit'])

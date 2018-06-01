@@ -29,9 +29,9 @@ def plot_raw(data):
     plt.show()	
 
 
-def plot_fit(params, data, flags, obs_par, plot_sys=False):
+def plot_fit(params, data, flags, obs_par, myfuncs):
     p = FormatParams(params, data)
-    m = Model(params,data, flags)
+    m = Model(params,data, flags, myfuncs)
     sns.set_palette("muted")
     palette = sns.color_palette("muted", m.data.nvisit)
 
@@ -42,7 +42,7 @@ def plot_fit(params, data, flags, obs_par, plot_sys=False):
     #plot data
     plt.subplot(211)
     #plot best fit model from first visit
-    plt.plot(phase_hr, calc_astro(t_hr, params, data, visit = 0))
+    plt.plot(phase_hr, calc_astro(t_hr, params, data, 0, myfuncs))
 
     #plot normalized data
     for i in range(m.data.nvisit):
@@ -56,12 +56,13 @@ def plot_fit(params, data, flags, obs_par, plot_sys=False):
 
     #annotate plot with fit diagnostics
     ax = plt.gca()
-    ax.text(0.85, 0.29, \
-        '$\chi^2_\\nu$:    ' + '{0:0.2f}'.format(int(m.chi2red)) + '\n' \
-        + 'obs. rms:  ' + '{0:0d}'.format(int(m.rms)) + '\n' \
-        + 'exp. rms:  ' + '{0:0d}'.format(int(m.rms_predicted)), \
+    ax.text( 0.85, 0.29, 
+             '$\chi^2_\\nu$:    ' + '{0:0.2f}'.format(int(m.chi2red)) + '\n' 
+            + 'obs. rms:  ' + '{0:0d}'.format(int(m.rms)) + '\n' 
+            + 'exp. rms:  ' + '{0:0d}'.format(int(m.rms_predicted)), 
             verticalalignment='top',horizontalalignment='left', 
-            transform=ax.transAxes, fontsize = 12) 
+            transform=ax.transAxes, fontsize = 12
+    )
     
     #plot fit residuals
     plt.subplot(212)
