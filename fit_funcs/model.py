@@ -2,17 +2,42 @@ import numpy as np
 from formatter import FormatParams
 from constant import constant
 
-def calc_sys(t, params, data, visit, myfuncs):
-    return constant(t, params, data, visit)
+def calc_astro(t, params, data, funcs, visit):
 
-def calc_astro(t, params, data, visit, myfuncs):
-    return np.ones_like(t)
+    flux = np.ones_like(t)
+    for i, f in enumerate(funcs.astro): 
+        flux *= f(t, params[funcs.astro_porder[i]+visit])
+
+    return flux 
+
+def calc_sys(t, params, data, funcs, visit):
+
+    flux = np.ones_like(t)
+    for i, f in enumerate(funcs.sys): 
+        flux *= f(t, params[funcs.sys_porder[i] + visit])
+
+    return flux 
+
+class Functions:
+    def __init__(self, data, funcs):
+        self.astro = []
+        self.astro_porder = []
+        self.sys = []
+        self.sys_porder = []
+
+        for f in funcs:
+            if f == "constant":
+                self.sys.append(constant)
+                self.sys_porder.append(data.par_order['c']*data.nvisit)
+            else:
+                #FIXME return error here
+                return 0
 
 class Model:
     """
     Stores model fit and related parameters
     """
-    def __init__(self, params, data, flags, myfuncs):
+    def __init__(self, data, myfuncs):
         npoints = len(data.time)
 
         self.model = np.zeros(npoints)
@@ -28,21 +53,24 @@ class Model:
         self.rms_predicted = 1.0e6*np.sqrt(np.mean((data.err/data.flux)**2))
         self.ln_like = 0.
         self.bic = 0.
-        #FIXME add definition of myfuncs in init
+        self.params = []
+        self.myfuncs = Functions(data, myfuncs)
 
-    def fit(self, params, data, myfuncs):
+
+    def fit(self, data, params):
         #loop over each observation
         for visit in range(data.nvisit):
-            ind = data.vis_num == visit
+            #FIXME don't do this every time fit is run
+            ind = data.vis_num == visit     
 
             t = data.time[ind]
             per  = params[data.par_order['per'] + visit]
             t0  = params[data.par_order['t0'] + visit]
             self.phase[ind] = (t - t0)/per - np.floor((t - t0)/per)
+            self.model_sys[ind] = calc_sys(t, params, data, self.myfuncs, visit)
+            self.model_astro[ind] = calc_astro(t, params, data, self.myfuncs, visit)
 
-            self.model_sys[ind] = calc_sys(t, params, data, visit, myfuncs)
-            self.model_astro[ind] = calc_astro(t, params, data, visit, myfuncs)
-
+        self.params = params
         self.model = self.model_sys*self.model_astro
         self.norm_flux = data.flux/self.model
         self.resid = data.flux - self.model
@@ -54,7 +82,6 @@ class Model:
             + np.log(2.0*np.pi*(data.err)**2)))
         )
         self.bic = -2.*self.ln_like + data.nfree_param*np.log(data.npoints)
-
-                
+        return self
 
 

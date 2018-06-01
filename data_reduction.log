@@ -10,6 +10,11 @@ working on getting scatter down - made window bigger. much better!
 11/07/2017:
 looked at spectroscopic lightcurves -- something is wrong with the binning
 
+
+05.30.2018
+refactoring fitting code completely
+
+
 TODO:
 fix spectroscopic light curves!
 try even bigger window?

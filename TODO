@@ -15,5 +15,9 @@ fix calculation of dof to just include the models you're fitting
 
 redo parse_skip_orbs
 
-figure out if you need to store data in Model
+change "visit" to "event"
+
+DONE:
+separate least square fitting from run.py
+figure out if you need to store data in Model (NO)
 
