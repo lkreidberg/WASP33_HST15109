@@ -29,7 +29,7 @@ def usage():
 
 
 def main():
-    myfuncs = ['constant', 'polynomial1']
+    myfuncs = ['constant']
     #model = ['constant', 'polynomial1', 'eclipse', 'model-ramp']
     #other options: polynomial2, transit, sine, divide-white
 
