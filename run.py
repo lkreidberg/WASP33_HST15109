@@ -29,12 +29,8 @@ def usage():
 
 
 def main():
+    #myfuncs = ['constant', 'upstream_downstream', 'polynomial2', 'model_ramp']
     myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine1'] 
-    #myfuncs = ['constant', 'polynomial1', 'upstream_downstream', 'ackbar', 'transit']
-    #myfuncs = ['constant', 'polynomial2', 'upstream_downstream', 'ackbar', 'transit']
-    #myfuncs = ['constant', 'polynomial2', 'upstream_downstream', 'model_ramp', 'transit']
-    #myfuncs = ['constant', 'polynomial1', 'upstream_downstream', 'divide_white', 'transit']
 
     #significance above which to mask outliers
     #outlier_cut = 10.
@@ -94,9 +90,9 @@ def main():
         data, model = lsq_fit(fit_par, data, flags, model, myfuncs)
 
         #FIXME : make this automatic!
-        outfile = open("white_systematics.txt", "w")
+        """outfile = open("white_systematics.txt", "w")
         for i in range(len(model.all_sys)): print>>outfile, model.all_sys[i]
-        outfile.close()
+        outfile.close()"""
 
         if flags['run-mcmc']:
             output = mcmc_fit(f, obs_par, fit_par, flags)
