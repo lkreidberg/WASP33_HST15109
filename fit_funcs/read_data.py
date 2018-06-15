@@ -1,18 +1,5 @@
 import numpy as np
 
-def parse_skip_orbs(x):
-	n = len(x)
-	i = 0
-	temp = 0
-	skip_orbs = []
-	while(i < n):
-		if x[i] == "_": 
-			skip_orbs.append(int(x[temp:i]))
-			temp = i+1
-		i += 1
-	return np.array(skip_orbs)
-
-
 class Data:
     """
     Reads in and stores raw light curve data
@@ -32,21 +19,13 @@ class Data:
         d = d[1:][ind]
 
         orb_num = np.zeros_like(d[:,7])	#removes first orbit from each visit 
+
     	orb = 0
         #stores data as separate visit if gap is longer than 9 hrs; FIXME 
 	for i in range(1, len(orb_num)):
 	    if (d[i,5] - d[i-1,5]) > 0.5/24.: orb += 1	
             orb_num[i] = orb
 
-
-        if obs_par['lc_type'] == "transit": 
-            skip_orbs = parse_skip_orbs(obs_par['skip_orbs_transit'])
-        elif obs_par['lc_type'] == "eclipse": 
-            skip_orbs = parse_skip_orbs(obs_par['skip_orbs_eclipse'])
-        elif obs_par['lc_type'] == "phase_curve": 
-            skip_orbs = parse_skip_orbs(obs_par['skip_orbs_phase_curve'])
-        else: 
-            raise Exception("Unsupported lc_type")
 
         n = len(d)
         vis_num = np.zeros(n)
@@ -62,7 +41,8 @@ class Data:
         vis_num[-1] = visit
 
         nvisit = int(obs_par['nvisit'])
-        norbit = int(obs_par['norb'])-1
+        norbit = int(obs_par['norb'])
+
 
         for i in range(nvisit):
             ind = vis_num == i
@@ -73,8 +53,36 @@ class Data:
         for i in range(norbit):
             ind = orb_num == i
             t_orb[ind] = d[ind,5] - d[ind,5][0]
+        
+        #####################################
+        #remove first orbit
+        """norbit -= 1
+        ind = orb_num != 0
+        orb_num = orb_num[ind] - 1.
+        vis_num = vis_num[ind]
+        t_vis = t_vis[ind]
+        t_orb = t_orb[ind]
+        t_delay = t_delay[ind]
+        d = d[ind]"""
+        #####################################
 
-        if i%orbs_per_visit == False: t_delay[ind] = 1.
+        #remove fourth orbit
+        """norbit -= 1
+        ind = orb_num != 3
+        orb_num = orb_num[ind] 
+        vis_num = vis_num[ind]
+        t_vis = t_vis[ind]
+        t_orb = t_orb[ind]
+        t_delay = t_delay[ind]
+        d = d[ind]
+        ind = orb_num > 3
+        orb_num[ind] -= 1
+        
+        print orb_num"""
+        #########################################
+
+        ind = orb_num == 0              #FIXME don't set by hand
+        t_delay[ind] = 1.
 
         err = np.sqrt(d[:,2])
         flux = d[:,1]
@@ -84,6 +92,7 @@ class Data:
         wavelength = d[0,3]
         #wavelength = 0.7
         #print "setting wavelength by hand to fix_ld for white lc"
+
 
         #fixes limb darkening if "fix_ld" parameter is set to True in obs_par.txt
         if obs_par['fix_ld'].lower() == "true":
@@ -126,4 +135,6 @@ class Data:
         self.all_sys = None
         self.u1 = 0.
         self.u2 = 0.
-
+        
+        #FIXME
+        self.white_systematics = np.genfromtxt("white_systematics.txt")

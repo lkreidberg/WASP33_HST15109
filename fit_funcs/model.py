@@ -3,13 +3,14 @@ sys.path.insert(0, './models')
 import numpy as np
 from formatter import FormatParams
 from functions import Functions
-from constant import constant
 
 def calc_astro(t, params, data, funcs, visit):
 
     flux = np.ones_like(t)
     for i, f in enumerate(funcs.astro): 
-        flux *= f(t, params[funcs.astro_porder[i]+visit])
+        #selects parameters to pass to function
+        funcparams = [params[j + visit] for j in funcs.astro_porder[i]]
+        flux *= f(t, data, funcparams)
 
     return flux 
 
@@ -17,10 +18,11 @@ def calc_sys(t, params, data, funcs, visit):
 
     flux = np.ones_like(t)
     for i, f in enumerate(funcs.sys): 
-        flux *= f(t, params[funcs.sys_porder[i] + visit])
+        #selects parameters to pass to function
+        funcparams = [params[j + visit] for j in funcs.sys_porder[i]]
+        flux *= f(t, data, funcparams) 
 
     return flux 
-
 
 class Model:
     """
@@ -61,7 +63,9 @@ class Model:
 
         self.params = params
         self.model = self.model_sys*self.model_astro
+        self.data_nosys = data.flux/self.model_sys
         self.norm_flux = data.flux/self.model
+        self.all_sys = data.flux/self.model_astro
         self.resid = data.flux - self.model
         self.norm_resid = self.resid/data.flux
         self.chi2 = np.sum((self.resid/data.err)**2)		

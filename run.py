@@ -29,9 +29,12 @@ def usage():
 
 
 def main():
-    myfuncs = ['constant']
-    #model = ['constant', 'polynomial1', 'eclipse', 'model-ramp']
-    #other options: polynomial2, transit, sine, divide-white
+    myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2'] 
+    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine1'] 
+    #myfuncs = ['constant', 'polynomial1', 'upstream_downstream', 'ackbar', 'transit']
+    #myfuncs = ['constant', 'polynomial2', 'upstream_downstream', 'ackbar', 'transit']
+    #myfuncs = ['constant', 'polynomial2', 'upstream_downstream', 'model_ramp', 'transit']
+    #myfuncs = ['constant', 'polynomial1', 'upstream_downstream', 'divide_white', 'transit']
 
     #significance above which to mask outliers
     #outlier_cut = 10.
@@ -87,15 +90,13 @@ def main():
 
     for f in files:
         data = Data(f, obs_par, fit_par)
-        if flags['divide-white']:
-            sys_vector = np.genfromtxt("white_systematics.txt")
-            data.all_sys = sys_vector
         model = Model(data, myfuncs)
-        data, model = lsq_fit(f, obs_par, fit_par, data, flags, model, myfuncs)
+        data, model = lsq_fit(fit_par, data, flags, model, myfuncs)
 
-        #outfile = open("white_systematics.txt", "w")
-        #for i in range(len(m.all_sys)): print>>outfile, m.all_sys[i]
-        #outfile.close()
+        #FIXME : make this automatic!
+        outfile = open("white_systematics.txt", "w")
+        for i in range(len(model.all_sys)): print>>outfile, model.all_sys[i]
+        outfile.close()
 
         if flags['run-mcmc']:
             output = mcmc_fit(f, obs_par, fit_par, flags)

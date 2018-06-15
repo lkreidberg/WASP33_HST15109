@@ -1,4 +1,3 @@
-add print statement of parameters
 
 combine obs_par and fit_par? maybe use a dictionary? -- get rid of obs_par
 
@@ -16,6 +15,8 @@ redo parse_skip_orbs
 change "visit" to "event"
 
 fix print statements and mcmc
+
+set step size in config file (to fix problem with t0)
 
 DONE:
 figure out if you need to store data in Model (NO)

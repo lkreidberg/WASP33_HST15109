@@ -289,6 +289,7 @@ for f in ancil.files:
 	#########################################################################################################################################################
 
 	for ii in range(d[0].header['nsamp']-2):	
+                print "IN HERE 0"
 		diff = d[ii*5 + 1].data[rmin:rmax,cmin:cmax] - d[ii*5 + 6].data[rmin:rmax,cmin:cmax]	#creates image that is the difference between successive scans
 		diff = diff/flatfield[ancil.orbnum][rmin:rmax, cmin:cmax]				#flatfields the differenced image
 		idx = np.argmax(scipy.signal.medfilt(np.sum(diff, axis = 1),3))				#computes spatial index of peak counts in the difference image
@@ -326,6 +327,7 @@ for f in ancil.files:
 		if convert_to_bool(obs_par['opt_extract'])==True: [f_opt_0, var_opt_0, numoutliers] = optextr.optextr(spectrum, err, spec_box_0, var_box_0, newM, ancil.nsmooth, ancil.sig_cut, ancil.diagnostics)							
 		else: [f_opt, var_opt] = [spec_box_0,var_box_0]
 		
+                print "IN HERE 1"
 		#sums up spectra and variance for all the differenced images
 		spec_opt += f_opt_0							
 		var_opt += var_opt_0
@@ -334,6 +336,7 @@ for f in ancil.files:
 		
 	######################################################################################################################################	
 
+        print "IN HERE 2"
 	time = (d[0].header['expstart'] + d[0].header['expend'])/(2.0) + 2400000.5					#converts time to BJD_TDB; see Eastman et al. 2010 equation 4
 	time = time + (32.184)/(24.0*60.0*60.0)									
 	print "are you double correcting for leap seconds?" 
@@ -364,6 +367,9 @@ for f in ancil.files:
 	#if convert_to_bool(obs_par['plot_spectrum']) == True: plot_spectrum(ancil)
 	#print sum(spec_opt)/sum(var_opt), sum(spec_box)/sum(var_box), sum(spec_opt)/sum(spec_box)
 	
+        plt.plot(template_waves, spec_opt)
+        plt.show()
+
 	n = len(spec_opt)	
 	print "length of trace", n
 	if ancil.output == True:

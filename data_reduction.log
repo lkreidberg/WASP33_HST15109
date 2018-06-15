@@ -14,9 +14,12 @@ looked at spectroscopic lightcurves -- something is wrong with the binning
 05.30.2018
 refactoring fitting code completely
 
+6.15.2018
+FOUND ECLIPSE IN WHITE LIGHT CURVE HOOORAY. good baseline, depth ~ 7e-4
+
 
 TODO:
-fix spectroscopic light curves!
+fix wavelength solution in extraction 
 try even bigger window?
-figure out whether you're double counting leap seconds! 
+fix times: report mid-exposure time and check whether you're double counting leap seconds
 
