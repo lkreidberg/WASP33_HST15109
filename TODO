@@ -18,6 +18,8 @@ fix print statements and mcmc
 
 set step size in config file (to fix problem with t0)
 
+change output of extract.py and bin_spectroscopic_lc.py 
+
 DONE:
 figure out if you need to store data in Model (NO)
 separate least square fitting from run.py

@@ -63,8 +63,8 @@ def lsq_fit(fit_par, data, flags, model, myfuncs):
     if flags['output']: 
         f = open(flags['out-name'], "a")
         print>>f, "{0:0.3f}".format(data.wavelength), \
-                  "{0:0.6f}".format(m.params[data.par_order['rp']*nvisit]), \
-                  "{0:0.6f}".format(m.perror[data.par_order['rp']*nvisit]),\
+                  "{0:0.6f}".format(m.params[data.par_order['fp']*nvisit]), \
+                  "{0:0.6f}".format(m.perror[data.par_order['fp']*nvisit]),\
                   "{0:0.3f}".format(m.params[data.par_order['u1']*nvisit]),\
                   "{0:0.3f}".format(m.params[data.par_order['u2']*nvisit]),\
                   "{0:0.2f}".format(model.chi2red)

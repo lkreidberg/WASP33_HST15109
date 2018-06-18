@@ -17,6 +17,42 @@ def smooth(x, nsmooth):
 		x[bpix] = np.float32(interp)				
 	return scipy.signal.medfilt(x, nsmooth)				#median filters the data
 
+def diagnostics_plot(D, M, indmax, outlier_array, f_opt, profile):
+	indmax = np.argmax(outlier_array)			#finds biggest outlier
+	indmax = unravel_index(indmax, outlier_array.shape)	#converts it from flat to tuple
+
+	plt.subplot(221)
+	plt.title("Raw Data")
+	plt.imshow(D,vmin=0, vmax=50)
+	plt.scatter(x = indmax[1], y = indmax[0], color='w', marker='x')
+	m = cm.ScalarMappable(cmap=  cm.jet)
+	m.set_array(D)
+	plt.colorbar(m)
+	plt.subplot(222)
+	plt.title("Outliers")
+	plt.imshow(M*outlier_array, vmin=0, vmax=20)
+	plt.scatter(x = indmax[1], y = indmax[0], color='w', marker='x')
+	m.set_array(M*outlier_array)
+	plt.colorbar(m)
+	plt.subplot(222)
+	plt.subplot(223)
+	plt.title("Cut in spatial direction")
+	plt.axvline(x = indmax[0], color="red")
+	plt.plot(D[:, indmax[1]], label = "data")
+	plt.plot((f_opt*profile)[:, indmax[1]], color="orange", label= "model")
+	plt.legend()
+	plt.xlabel('Wavelength [um]')
+	plt.ylabel('Counts')
+	plt.subplot(224)
+	plt.title("Outliers: cut in spatial direction")
+	plt.plot(outlier_array[:,indmax[1]])
+	plt.axvline(x = indmax[0], color="red")
+	plt.ylabel('Residuals')
+	plt.xlabel('Wavelength [um]')
+	plt.tight_layout()
+
+	plt.show()
+	plt.clf()
 
 """Function to optimally extract a spectrum:
 Inputs:
@@ -52,6 +88,7 @@ def optextr(D, err, f_std, var_std, M, nsmooth, sig_cut, diagnostics):
 
 		#normalize
 		profile = profile/profile.sum(axis = 0)
+    
 		
 		#STEP 6:  revise variance estimates
 		var = abs(f_opt*profile) + err 
@@ -59,52 +96,32 @@ def optextr(D, err, f_std, var_std, M, nsmooth, sig_cut, diagnostics):
 		#STEP 7:  mask cosmic rays/bad pixels
 		outlier_array = M*(D - (f_opt*profile))**2/var		#number of standard deviations away from expected is each pixel
 
+		maxes = np.argmax(outlier_array, axis = 0)
+		#print maxes
+		newoutliers = 0
+		for ii in range(len(maxes)):
+			ind2, ind1 = ii, maxes[ii]
+			#print ind1, ind2
+			if outlier_array[ind1, ind2] > sig_cut**2.:
+				M[ind1, ind2] = 0.0
+				numoutliers += 1
+				newoutliers += 1
+		if newoutliers == 0: outliers = False
+
 		indmax = np.argmax(outlier_array)			#finds biggest outlier
 		indmax = unravel_index(indmax, outlier_array.shape)	#converts it from flat to tuple
 
-		if diagnostics == True:		
-			plt.subplot(221)
-			plt.title("Raw Data")
-			plt.imshow(D,vmin=0, vmax=50)
-			plt.scatter(x = indmax[1], y = indmax[0], color='w', marker='x')
-			m = cm.ScalarMappable(cmap=  cm.jet)
-			m.set_array(D)
-			plt.colorbar(m)
-			plt.subplot(222)
-			plt.title("Outliers")
-			plt.imshow(M*outlier_array, vmin=0, vmax=20)
-			plt.scatter(x = indmax[1], y = indmax[0], color='w', marker='x')
-			m.set_array(M*outlier_array)
-			plt.colorbar(m)
-			plt.subplot(222)
-			plt.subplot(223)
-			plt.title("Cut in spatial direction")
-			plt.axvline(x = indmax[0], color="red")
-			plt.plot(D[:, indmax[1]], label = "data")
-			plt.plot((f_opt*profile)[:, indmax[1]], color="orange", label= "model")
-			plt.legend()
-			plt.xlabel('Wavelength [um]')
-			plt.ylabel('Counts')
-			plt.subplot(224)
-			plt.title("Outliers: cut in spatial direction")
-			plt.plot(outlier_array[:,indmax[1]])
-			plt.axvline(x = indmax[0], color="red")
-			plt.ylabel('Residuals')
-			plt.xlabel('Wavelength [um]')
-			plt.tight_layout()
-
-			plt.show()
-			plt.clf()
-
-		if outlier_array[indmax] > sig_cut**2.0: 
-			M[indmax] = 0.0					#checks to see if the pixel is an outlier > sig_cut, and if so, masks that pixel
-			numoutliers += 1
-		else: outliers = False					#if not outliers, switches outliers flag to false to close loop
+		#if outlier_array[indmax] > sig_cut**2.0: 
+		#	M[indmax] = 0.0					#checks to see if the pixel is an outlier > sig_cut, and if so, masks that pixel
+		#	numoutliers += 1
+		#else: outliers = False					#if not outliers, switches outliers flag to false to close loop
 
 		#STEP 8:  extract optimal spectrum
 		f_opt = ((M*profile*D/var).sum(axis = 0))/(M*profile**2/var).sum(axis=0) 
 	
 	var_opt = (M*profile).sum(axis = 0)/(M*profile**2/var).sum(axis = 0)
+
+	if diagnostics == True: diagnostics_plot(D, M, indmax, outlier_array, f_opt, profile)
 
 	return f_opt, var_opt, numoutliers
 

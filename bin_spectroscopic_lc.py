@@ -14,10 +14,11 @@ def weighted_mean(data, err):				#calculates the weighted mean for data points d
 	return [mu, np.sqrt(var)]				#returns weighted mean and variance
 
 #what bins do you want?
-wave_bins = np.linspace(0.8, 1.1, 10)*1e4
+wave_bins = np.linspace(0.85, 1.14, 10)*1e4
 
 #reads in spectra
-d = np.genfromtxt("extracted_lc/11_06_15_08/lc_spec.txt")
+#d = np.genfromtxt("extracted_lc/06_18_12_23/lc_spec.txt")
+d = np.genfromtxt("extracted_lc/06_18_13_11/lc_spec.txt")
 
 obs_par = make_dict(ascii.read("config/obs_par.txt", Reader=ascii.CommentedHeader))
 nexp = int(obs_par['nexp'])			#number of exposures
@@ -28,7 +29,7 @@ w = d[0,:, 4]
 f = d[0, :, 2]
 
 w_hires = np.linspace(w.min(), w.max(), 10000)
-#oversample_factor = len(w_hires)/len(w)*1.0
+oversample_factor = len(w_hires)/len(w)*1.0
 
 #stores the indices corresponding to the wavelength range in each bin
 wave_inds = []
@@ -47,11 +48,9 @@ for i in range(len(wave_bins) - 1):
                 f_interp = np.interp(w_hires, w, d[j,:,2])
                 variance_interp = np.interp(w_hires, w, d[j,:,3])
 
-                plt.plot(w_hires, f_interp)
-                plt.show()
                 
                 #accounts for decrease in precision when spectrum is oversampled
-                oversample_factor = sum(wave_inds[i])                  
+                #oversample_factor = sum(wave_inds[i])                  
                 variance_interp *= oversample_factor
 
 		fluxes = f_interp[wave_inds[i]]
@@ -61,7 +60,13 @@ for i in range(len(wave_bins) - 1):
                 #print wave, sum(wave_inds[i]), oversample_factor, meanflux/meanerr**2
 
 		print>>outfile, phase, meanflux, meanerr**2, wave, 0., time, visnum, orbnum, scan
+		#print>>outfile, phase, meanflux, meanerr, wave, 0., time, visnum, orbnum, scan
 		#print>>outfile, time, '\t', meanflux, '\t', meanerr, '\t', visnum, '\t', orbnum, '\t', scan, '\t', wave, '\t\t', wave_bins[i]/1.e4, '\t\t', wave_bins[i+1]/1.e4
 
 
 
+plt.plot(w_hires, f_interp)
+for wave in wave_bins: plt.axvline(wave, color = '0.5')
+plt.ylabel("Photelectrons")
+plt.xlabel("Wavelength (angstroms)")
+plt.show()

@@ -17,9 +17,42 @@ refactoring fitting code completely
 6.15.2018
 FOUND ECLIPSE IN WHITE LIGHT CURVE HOOORAY. good baseline, depth ~ 7e-4
 
+06.18.2018
+copied over extract.py from HIP41378 analysis, which corrected wavelength problem
+    (I think there was a postarg issue)
+
+changing window size:
+    06_18_12_23
+    window = 100
+    rms obs, exp = 163, 23
+
+    06_18_12_28
+    window = 120
+    rms obs, exp = 163, 23
+    
+
+    06_18_12_35
+    window = 140
+    rms obs, exp = 167, 23
+
+spectroscopic light curves (window = 100, 06_18_12_23)
+
+they look pretty good with divide white! 
+    
+tried bigger window (300 pix) to see if rms goes down ... NOPE
+BUT : the divide_white model has a big offset (300 ppm) in eclipse depth
+     
+
+corrected error in the spectroscopic lc predicted rms
+(needed to include oversample_factor in estimate of error from
+    bin_spectroscopic.py because the error is a *weighted average*
+    -- shouldn't just be sqrt(N))
+
 
 TODO:
-fix wavelength solution in extraction 
-try even bigger window?
-fix times: report mid-exposure time and check whether you're double counting leap seconds
+get analytic model working for least-squares fit to spectroscopic lc
+check how much the background counts contribute to eclipse depth dilution
+    (Haynes says it's ~100 ppm)
+
+check whether you're double counting leap seconds
 

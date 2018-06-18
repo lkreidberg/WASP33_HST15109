@@ -29,7 +29,7 @@ cmin				0
 cmax				512
 offset				0
 rdnoise				22.0
-window				300
+window				120
 ###				
 BEAMA_i				41
 BEAMA_f				248
