@@ -45,6 +45,7 @@ def plot_fit(data, model):
     #plot data
     plt.subplot(211)
     #plot best fit model from first visit
+    plt.title("Wavelength = " + '{0:0.2f}'.format(data.wavelength))
     plt.plot(phase_hr, calc_astro(t_hr, model.params, data, model.myfuncs, 0))
 
     #plot systematics removed data

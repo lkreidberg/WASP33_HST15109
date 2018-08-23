@@ -48,9 +48,19 @@ corrected error in the spectroscopic lc predicted rms
     bin_spectroscopic.py because the error is a *weighted average*
     -- shouldn't just be sqrt(N))
 
+08/23/18
+--------
+binned closer to native resolution of the spectrograph (~2 pix) ; 50 bins
+weird emission features that coincide with the star
+
 
 TODO:
 get analytic model working for least-squares fit to spectroscopic lc
+try decorrelating against spectral position (as in Haynes et al.)
+run MCMC
+GP?
+
+
 check how much the background counts contribute to eclipse depth dilution
     (Haynes says it's ~100 ppm)
 
