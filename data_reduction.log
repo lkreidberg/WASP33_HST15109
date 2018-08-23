@@ -52,13 +52,16 @@ corrected error in the spectroscopic lc predicted rms
 --------
 binned closer to native resolution of the spectrograph (~2 pix) ; 50 bins
 weird emission features that coincide with the star
-
+tried decorrelating against spectral position (as Haynes+ did): no improvement
+got analytic model working for least-squares fit to spectroscopic lc
+the analytic fit -> much closer to a blackbody over the full wavelength range
+the divide white model has weird "features" towards the blue
 
 TODO:
-get analytic model working for least-squares fit to spectroscopic lc
-try decorrelating against spectral position (as in Haynes et al.)
-run MCMC
+try data reduction with larger window to see if it improves spec_lc precision
 GP?
+ackbar?
+run MCMC
 
 
 check how much the background counts contribute to eclipse depth dilution

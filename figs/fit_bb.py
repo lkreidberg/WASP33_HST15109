@@ -27,13 +27,15 @@ def best_fit_bb(w, y, e, Tstar, rprs):
 		if chi2 < chibest: 
 			chibest, Tbest = chi2, T
 	#		print("chi2, Tbest", chibest/(len(w)-1.)), Tbest
-	waves_hires = np.linspace(0.7, 1.1, 1000)
+	waves_hires = np.linspace(0.7, 1.2, 1000)
 	#return waves_hires, 1.0e6*blackbody(waves_hires*1.0e-6, Tbest)/blackbody(waves_hires*1.0e-6, Tstar)*rprs**2, Tbest, get_significance(chibest,(len(w)-1))
 	return waves_hires, 1.0e6*blackbody(waves_hires*1.0e-6, Tbest)/blackbody(waves_hires*1.0e-6, Tstar)*rprs**2, Tbest, chibest/(len(w)-1)
 
 
 #files = ["../analysis/fit_2018_08_23_11:16.txt"]
-files = ["../analysis/fit_2018_08_23_11:16_cut.txt"]
+#files = ["../analysis/fit_2018_08_23_11:16_cut.txt"]
+#files = ["../analysis/fit_2018_08_23_16:36.txt"]
+files = ["../analysis/fit_2018_08_23_16:55.txt"]        #analytic model
 Tstars = [7400.] 
 rps = [0.103] 
 
@@ -42,7 +44,8 @@ for i, f in enumerate(files):
 	Tstar = Tstars[i]
 	rprs = rps[i]
 	d = np.genfromtxt(f)
-        w, y, e = d[:,0], d[:,1]*1e6, d[:,2]*np.sqrt(d[:,5])*1e6
+        #w, y, e = d[:,0], d[:,1]*1e6, d[:,2]*np.sqrt(d[:,5])*1e6
+        w, y, e = d[:,0], d[:,1]*1e6, d[:,2]*1e6
 
 	xm, ym, Tbest, chi2  = best_fit_bb(w, y, e, Tstar, rprs)
 

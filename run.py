@@ -29,8 +29,9 @@ def usage():
 
 
 def main():
-    myfuncs = ['constant', 'divide_white', 'polynomial1', 'eclipse'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2'] 
+    #myfuncs = ['constant', 'divide_white', 'polynomial1', 'eclipse'] 
+    myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2'] 
+    #myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine1'] 
 
     #significance above which to mask outliers
     #outlier_cut = 10.
