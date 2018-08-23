@@ -61,7 +61,7 @@ plt.figure(figsize = (12,6))
 for i, f in enumerate(files):
 	d = np.genfromtxt(f, skip_header = 2)
 
-	plt.plot(d[:,1]*1.e4, convolve(d[:,4], g, boundary = 'extend'), label = labels[i], color = colors[i])
+	plt.plot(d[:,1]*1.e4, convolve(d[:,4], g, boundary = 'extend'), label = labels[i], color = colors[i], alpha = 0.5)
 	#plt.plot(d[:,1]*1.e4, d[:,4], label = labels[i]) 
 #	plt.plot(d[:,1]*1.e4, boxcar_smooth(d[:,4], 5), label = labels[i], color = colors[i])
 
@@ -69,23 +69,24 @@ s = np.genfromtxt("w33_data_haynes.txt")
 offset = 0.00017
 plt.errorbar(s[:,0], s[:,1]/100. - offset, s[:,2]/100., marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
 
-xm, ym, Tbest, chi2  = best_fit_bb(s[:,0], s[:,1]/100. - offset, s[:,2]/100., 7400, 0.1106)
+
+
+#d = np.genfromtxt("../analysis/fit_2018_08_23_10:45.txt")
+d = np.genfromtxt("../analysis/fit_2018_08_23_17:42.txt")
+plt.errorbar(d[:,0], d[:,1], d[:,2], fmt = '.k', zorder=100, label = "G102 data")
+
+xm, ym, Tbest, chi2  = best_fit_bb(d[:,0], d[:,1], d[:,2], 7400, 0.1106)
 print Tbest
 plt.plot(xm, ym, color='0.4', linestyle='dotted', label = 'blackbody fit')
 
 
-#d = np.genfromtxt("../analysis/fit_2018_08_23_10:45.txt")
-d = np.genfromtxt("../analysis/fit_2018_08_23_11:16.txt")
-plt.errorbar(d[:,0], d[:,1], d[:,2], fmt = 'ok', zorder=100, label = "G102 data")
-
-
 #plt.ylim(0, 1.3e-3)
-plt.ylim(0.2e-3, 1.5e-3)
-plt.xlim(0.7, 1.7)
+plt.ylim(0.0, 1.5e-3)
+plt.xlim(0.75, 1.7)
 
 
-plt.gca().annotate('TiO features', xy=(1.05, 0.0008), xytext=(0.8, 0.0005), arrowprops=dict(facecolor='black', shrink=0.05),)
-plt.gca().annotate('', xy=(0.97, 0.00095), xytext=(0.95, 0.0006), arrowprops=dict(facecolor='black', shrink=0.05),)
+#plt.gca().annotate('TiO features', xy=(1.05, 0.0008), xytext=(0.8, 0.0005), arrowprops=dict(facecolor='black', shrink=0.05),)
+#plt.gca().annotate('', xy=(0.97, 0.00095), xytext=(0.95, 0.0006), arrowprops=dict(facecolor='black', shrink=0.05),)
 
 
 plt.tight_layout()
