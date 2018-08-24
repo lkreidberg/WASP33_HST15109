@@ -65,9 +65,11 @@ for i, f in enumerate(files):
 	#plt.plot(d[:,1]*1.e4, d[:,4], label = labels[i]) 
 #	plt.plot(d[:,1]*1.e4, boxcar_smooth(d[:,4], 5), label = labels[i], color = colors[i])
 
-s = np.genfromtxt("w33_data_haynes.txt")
+#s = np.genfromtxt("w33_data_haynes.txt")
+s = np.genfromtxt("w33_g141_kreidberg.txt")
 offset = 0.00017
-plt.errorbar(s[:,0], s[:,1]/100. - offset, s[:,2]/100., marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
+#plt.errorbar(s[:,0], s[:,1]/100. - offset, s[:,2]/100., marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
+plt.errorbar(s[:,0], s[:,1], s[:,2], marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
 
 
 
@@ -81,7 +83,7 @@ plt.plot(xm, ym, color='0.4', linestyle='dotted', label = 'blackbody fit')
 
 
 #plt.ylim(0, 1.3e-3)
-plt.ylim(0.0, 1.5e-3)
+plt.ylim(0.0, 1.8e-3)
 plt.xlim(0.75, 1.7)
 
 

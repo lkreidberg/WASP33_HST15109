@@ -61,8 +61,12 @@ used spectra from larger extraction box to see if it improves spec_lc precision
      (06_18_12_35, window = 140)
     better by 2x for redder wavelengths, worse at bluer wavelengths
 
+08/24/18
+-------
+reduced data with window = 200 pix
+
 TODO:
-change extraction box size
+change extraction box size and stop removed background
 GP?
 ackbar?
 run MCMC
