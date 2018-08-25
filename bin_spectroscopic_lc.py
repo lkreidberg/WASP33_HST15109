@@ -19,7 +19,8 @@ wave_bins = np.linspace(0.8, 1.15, 50)*1e4
 #reads in spectra
 #d = np.genfromtxt("extracted_lc/06_18_12_23/lc_spec.txt")
 #d = np.genfromtxt("extracted_lc/06_18_13_11/lc_spec.txt")
-d = np.genfromtxt("extracted_lc/06_18_12_35/lc_spec.txt")
+#d = np.genfromtxt("extracted_lc/06_18_12_35/lc_spec.txt")
+d = np.genfromtxt("extracted_lc/08_24_19_08/lc_spec.txt")
 
 obs_par = make_dict(ascii.read("config/obs_par.txt", Reader=ascii.CommentedHeader))
 nexp = int(obs_par['nexp'])			#number of exposures

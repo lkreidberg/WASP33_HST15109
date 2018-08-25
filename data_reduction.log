@@ -64,9 +64,12 @@ used spectra from larger extraction box to see if it improves spec_lc precision
 08/24/18
 -------
 reduced data with window = 200 pix
+08_24_19_08 : fits are much worse (lots of redchi2 > 5 for 50 bins)
+    probably because you run into a nearby star
 
 TODO:
-change extraction box size and stop removed background
+try removing first/last up-the-ramp sample in data reduction 
+stop removing background?
 GP?
 ackbar?
 run MCMC
