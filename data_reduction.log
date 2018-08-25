@@ -103,8 +103,12 @@ divide-white has weird systematic trend in spectrum (fit_2018_08_25_14:07.txt)
 
 for spec_lc, results for polynomial1 and polynomial2 are equivalent
 
+ackbar looks really good! but I tweaked the cRate parameter by hand ...
+    let t0 and sine parameters vary ... best rms yet! rms = 109
+
+
+
 TODO:
-ackbar?
 try convolving spectrum with instrument psf (like Drake does)
 GP?
 run MCMC
