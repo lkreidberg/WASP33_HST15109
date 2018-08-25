@@ -16,7 +16,7 @@ v2		False   True	0.0059		False	0.	False	0.
 r1		False   True	80.2		True	50.	True	200.
 r2		False   True	7.1		True	5.	True	10.
 r3		False   True	-2.36		True	-3.	True	1.
-scale		True    True	0.002345	False	0.	False	0.
+scale		False   True	0.002345	False	0.	False	0.
 a1		False   True	4.95e-4		True    5.0e-5	True    1.e-3
 omega1		True    True	130.171366	True    100.	True    300.
 phi1		True    True	3.86971639	True.	0.0      True   6.2831

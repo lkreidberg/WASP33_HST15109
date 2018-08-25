@@ -67,9 +67,16 @@ reduced data with window = 200 pix
 08_24_19_08 : fits are much worse (lots of redchi2 > 5 for 50 bins)
     probably because you run into a nearby star
 
+
+08/25/18
+--------
+try removing first/last up-the-ramp sample in data reduction - no improvement
+    08_25_09_43. white lc rms = 159 ppm
+
+
 TODO:
-try removing first/last up-the-ramp sample in data reduction 
 try decorrelating against spatial shift
+try convolving spectrum with instrument psf (like Drake does)
 GP?
 ackbar?
 run MCMC
