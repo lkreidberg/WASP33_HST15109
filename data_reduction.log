@@ -117,6 +117,8 @@ test model_ramp with corrected ephemeris -- not as good as ackbar
 
 tried higher frequency sine term (sine3) -- doesn't help 
 
+searched for helium 10830 feature: fit_2018_08_25_16:03.txt. NOTHING!
+
 TODO:
 try convolving spectrum with instrument psf (like Drake does)
 GP?

@@ -14,7 +14,8 @@ def weighted_mean(data, err):				#calculates the weighted mean for data points d
 	return [mu, np.sqrt(var)]				#returns weighted mean and variance
 
 #what bins do you want?
-wave_bins = np.linspace(0.8, 1.15, 25)*1e4
+#wave_bins = np.linspace(0.8, 1.15, 25)*1e4
+wave_bins = np.array([9200, 9400, 9600, 9800, 10000, 10170, 10370, 10570, 10770, 10910, 11100, 11300])
 
 #reads in spectra
 #d = np.genfromtxt("extracted_lc/06_18_12_23/lc_spec.txt")

@@ -23,13 +23,13 @@ phi1		True    True	5.04220828	True.	0.0      True   6.2831
 a2		False   True	0.00052627	True    1.0e-5	True    1.e-3
 omega2		True    True	68.48197277	True    50.	True    300.
 phi2		True    True	1.52447695	True.	0.      True    6.2831853
-a3		False   True	0.00052627	True    5.0e-5	True    1.e-3
-omega3		False   True	300.48197277	True    150.	True    500.
-phi3		False   True	3.72447695	True.	0.      True    6.2831853
-trap_pop_s	True    True	494.		True	0.	True	3.e3
-trap_pop_f	True    True	98.		True	0.	True	3.e3
-dTrap_s         True    True	251.0		True	0.	True    3.e2	
-dTrap_f         True    True	77.0     	True	0.	True    3.e2
+a3		True     True	0.00052627	True    5.0e-5	True    1.e-3
+omega3		True    True	300.48197277	True    150.	True    500.
+phi3		True    True	3.72447695	True.	0.      True    6.2831853
+trap_pop_s	False   True	494.		True	0.	True	3.e3
+trap_pop_f	False   True	98.		True	0.	True	3.e3
+dTrap_s         False   True	251.0		True	0.	True    3.e2	
+dTrap_f         False   True	77.0     	True	0.	True    3.e2
 xshift          True    True    -0.000877       True    -1.      True    1.
 yshift          True    True    1.0e-3          True    -1.      True    1.
 
