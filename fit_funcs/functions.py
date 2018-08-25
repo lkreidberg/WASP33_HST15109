@@ -5,6 +5,7 @@ from polynomial1 import polynomial1
 from polynomial2 import polynomial2
 from sine1 import sine1
 from sine2 import sine2
+from sine3 import sine3
 from upstream_downstream import upstream_downstream
 from transit import transit
 from eclipse import eclipse
@@ -54,6 +55,19 @@ class Functions:
                     data.par_order['a2']*data.nvisit,
                     data.par_order['omega2']*data.nvisit,
                     data.par_order['phi2']*data.nvisit
+                ]) 
+            elif f == "sine3":
+                self.sys.append(sine3)
+                self.sys_porder.append([
+                    data.par_order['a1']*data.nvisit,
+                    data.par_order['omega1']*data.nvisit,
+                    data.par_order['phi1']*data.nvisit,
+                    data.par_order['a2']*data.nvisit,
+                    data.par_order['omega2']*data.nvisit,
+                    data.par_order['phi2']*data.nvisit,
+                    data.par_order['a3']*data.nvisit,
+                    data.par_order['omega3']*data.nvisit,
+                    data.par_order['phi3']*data.nvisit
                 ]) 
             elif f == "model_ramp":
                 self.sys.append(model_ramp)

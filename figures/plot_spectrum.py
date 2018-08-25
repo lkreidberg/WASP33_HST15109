@@ -77,7 +77,7 @@ plt.errorbar(s[:,0], s[:,1], s[:,2], marker='o', color='0.5', linestyle='none', 
 #d = np.genfromtxt("../analysis/fit_2018_08_23_17:42.txt")
 #d = np.genfromtxt("../analysis/fit_2018_08_25_13:50.txt")
 #d = np.genfromtxt("../analysis/fit_2018_08_25_13:56.txt")
-d = np.genfromtxt("../analysis/fit_2018_08_25_14:12.txt")
+d = np.genfromtxt("../analysis/fit_2018_08_25_15:19.txt")
 plt.errorbar(d[:,0], d[:,1], d[:,2]*np.sqrt(d[:,5]), fmt = '.k', zorder=100, label = "G102 data")
 
 xm, ym, Tbest, chi2  = best_fit_bb(d[:,0], d[:,1], d[:,2], 7400, 0.1106)

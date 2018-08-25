@@ -106,9 +106,17 @@ for spec_lc, results for polynomial1 and polynomial2 are equivalent
 ackbar looks really good! but I tweaked the cRate parameter by hand ...
     let t0 and sine parameters vary ... best rms yet! rms = 109
 
+try model_ramp with updated ephemeris and sine parameters -- not as good (136)
+try ackbar with spatial_shift instead of polynomial1 -- not as good
 
+ackbar looks good and gets very similar results to model_ramp, modulo
+    a constant offset of 150 ppm and better chisq
+
+test model_ramp with corrected ephemeris -- not as good as ackbar
+    but it looks like the polynomial1 model isn't the best fit ...
 
 TODO:
+try higher frequency sine?
 try convolving spectrum with instrument psf (like Drake does)
 GP?
 run MCMC

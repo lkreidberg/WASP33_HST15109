@@ -32,8 +32,9 @@ def main():
     #myfuncs = ['constant', 'divide_white', 'polynomial1', 'eclipse'] 
     #myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2'] 
     #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'model_ramp', 'eclipse', 'sine2'] 
-    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
+    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine3'] 
     #myfuncs = ['constant', 'upstream_downstream', 'model_ramp', 'eclipse', 'sine2', 'spatial_shift'] 
+    #myfuncs = ['constant', 'upstream_downstream', 'ackbar', 'eclipse', 'sine2', 'spatial_shift'] 
 
     #significance above which to mask outliers
     #outlier_cut = 10.
