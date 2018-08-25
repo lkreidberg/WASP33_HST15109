@@ -291,7 +291,8 @@ for f in ancil.files:
     # loops over up-the-ramp-samples (skipping first two very short exposures); gets all needed input for optextr routine                    #
     #########################################################################################################################################################
 
-    for ii in range(d[0].header['nsamp']-2):    
+    #for ii in range(d[0].header['nsamp']-2):    
+    for ii in range(1, d[0].header['nsamp']-3):         #cuts off first and last scans -- see if it improves rms
         diff = d[ii*5 + 1].data[rmin:rmax,cmin:cmax] - d[ii*5 + 6].data[rmin:rmax,cmin:cmax]	#creates image that is the difference between successive scans
         diff = diff/flatfield[ancil.orbnum][rmin:rmax, cmin:cmax]                               #flatfields the differenced image
         idx = np.argmax(scipy.signal.medfilt(np.sum(diff, axis = 1),3))                         #computes spatial index of peak counts in the difference image
