@@ -115,8 +115,9 @@ ackbar looks good and gets very similar results to model_ramp, modulo
 test model_ramp with corrected ephemeris -- not as good as ackbar
     but it looks like the polynomial1 model isn't the best fit ...
 
+tried higher frequency sine term (sine3) -- doesn't help 
+
 TODO:
-try higher frequency sine?
 try convolving spectrum with instrument psf (like Drake does)
 GP?
 run MCMC
