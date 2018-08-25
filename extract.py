@@ -346,6 +346,10 @@ for f in ancil.files:
 
     template_waves = ancil.wave_grid[0, int(ancil.refpix[0,1]) + ancil.LTV1, cmin:cmax]             #LK interpolation 8/18
     shift = 0.
+
+    spatial_pix = np.arange(spectrum.shape[0])
+    yshift = 0.
+
     #corrects for wavelength drift over time
     if convert_to_bool(obs_par['correct_wave_shift']) == True:
         if nspectra == 0:
@@ -353,6 +357,9 @@ for f in ancil.files:
             template_spectrum = spec_opt                                #makes the first exposure the template spectrum
             best_spec = spec_opt
             best_var = var_opt
+            
+            template_spatial = spectrum.sum(axis = 1)
+            best_spatial = spectrum.sum(axis = 1)
         else:
             #shifts spectrum so it matches the template
             [best_spec, best_var, shift] = interpolate_spectrum(spec_opt, np.sqrt(var_opt), template_spectrum, template_waves)
@@ -360,6 +367,10 @@ for f in ancil.files:
                 
             spec_opt = best_spec                                    #saves the interpolated spectrum
             var_opt = best_var
+
+            #calculates yshift
+            
+            [best_spatial, best_var_spatial, yshift] = interpolate_spectrum(spectrum.sum(axis = 1), np.sqrt(spectrum.sum(axis = 1)), template_spatial, spatial_pix)
 
     #if convert_to_bool(obs_par['plot_spectrum']) == True: plot_spectrum(ancil)
     #print sum(spec_opt)/sum(var_opt), sum(spec_box)/sum(var_box), sum(spec_opt)/sum(spec_box)
@@ -369,12 +380,12 @@ for f in ancil.files:
         print>>whitefile,  phase[0], sum(spec_opt), sum(var_opt),  sum(spec_box), sum(var_box), time[0], ancil.visnum, ancil.orbnum, scan
         for ii in arange(n):
             print>>specfile, time[0], phase[0], spec_opt[ii], var_opt[ii], template_waves[ii], ancil.visnum, ancil.orbnum, scan
-        print>>diagnosticsfile, nspectra, time[0], numoutliers, skymedian, shift
+        print>>diagnosticsfile, nspectra, time[0], numoutliers, skymedian, shift, yshift
 
     nspectra += 1
     if nspectra%10 == 0: print "Extraction", '{0:1f}'.format(float(nspectra)/float(len(ancil.files))*100.), "% complete, time elapsed (min) =", '{0:0.1f}'.format(clock()/60.)
 
-    print nspectra, time[0], sum(spec_opt), np.sum(spec_box), ancil.visnum, f, shift
+    print nspectra, time[0], sum(spec_opt), np.sum(spec_box), ancil.visnum, f, shift, yshift
 
 
 if ancil.output == True:

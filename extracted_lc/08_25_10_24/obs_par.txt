@@ -17,7 +17,7 @@ di_cmax				280
 sig_cut				15.
 nsmooth				13
 diagnostics			False
-output				False
+output				True
 opt_extract			True
 correct_wave_shift	 	True
 plot_trace			False
