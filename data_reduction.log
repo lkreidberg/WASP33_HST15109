@@ -69,7 +69,7 @@ reduced data with window = 200 pix
 
 TODO:
 try removing first/last up-the-ramp sample in data reduction 
-stop removing background?
+try decorrelating against spatial shift
 GP?
 ackbar?
 run MCMC
