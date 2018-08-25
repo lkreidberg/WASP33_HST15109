@@ -15,7 +15,8 @@ class Data:
 	d = np.genfromtxt(data_file)
 	d = d[np.argsort(d[:,5])]   #FIXME (put indices in a file, or add header)
 
-        diag = np.genfromtxt("/Users/lkreidberg/Desktop/Projects/Observations/HST/W33_analysis/extracted_lc/06_18_12_23/diagnostics.txt")
+        diag = np.genfromtxt("/Users/lkreidberg/Desktop/Projects/Observations/HST/W33_analysis/extracted_lc/08_25_12_53/diagnostics.txt")
+        print "inputting diagnostics file path by hand :("
         diag = diag[np.argsort(diag[:,1])]
         #plt.plot(diag[:,1], diag[:,4], '.k')
         #plt.show()
@@ -25,6 +26,7 @@ class Data:
         d = d[1:][ind]
         diag = diag[1:][ind]
         self.spectral_shift = diag[:,4]
+        self.spatial_shift = diag[:,5]
 
         orb_num = np.zeros_like(d[:,7])	#removes first orbit from each visit 
 
@@ -144,7 +146,5 @@ class Data:
         self.u1 = 0.
         self.u2 = 0.
         
-        print len(self.time), len(self.spectral_shift)
-
         #FIXME
         self.white_systematics = np.genfromtxt("white_systematics.txt")

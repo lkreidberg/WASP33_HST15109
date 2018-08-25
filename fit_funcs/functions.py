@@ -12,6 +12,7 @@ from model_ramp import model_ramp
 from divide_white import divide_white
 from ackbar import ackbar
 from spectral_shift import spectral_shift
+from spatial_shift import spatial_shift
 
 #need to automate appending parameters to functions
 class Functions:
@@ -75,7 +76,12 @@ class Functions:
             elif f == "spectral_shift":
                 self.sys.append(spectral_shift)
                 self.sys_porder.append([
-                    data.par_order['shift']*data.nvisit,
+                    data.par_order['xshift']*data.nvisit,
+                ]) 
+            elif f == "spatial_shift":
+                self.sys.append(spectral_shift)
+                self.sys_porder.append([
+                    data.par_order['yshift']*data.nvisit,
                 ]) 
             elif f == "transit":
                 self.astro.append(transit)

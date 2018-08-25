@@ -10,7 +10,8 @@ import geometry102 as geo
 import suntimecorr
 import optextr 
 import copy
-from scipy.optimize import leastsq
+#from scipy.optimize import leastsq
+from scipy.optimize import least_squares
 from astropy.io import ascii
 from time import clock
 from datetime import datetime
@@ -103,9 +104,13 @@ def residuals(params, template_waves, template, spectrum, error):
     x = (template-fit)/error
     return (template-fit)/error
 
-def interpolate_spectrum(spectrum, error, template, template_waves):
-    p0 = [1.0e-4, 1.0]                                        #initial guess for parameters shift and scale
-    plsq, success  = leastsq(residuals, p0, args=(template_waves, template, spectrum, error))
+def interpolate_spectrum(spectrum, error, template, template_waves, guess_p0):
+    p0 = guess_p0
+    #p0 = [1.0e-4, 1.0]                                        #initial guess for parameters shift and scale
+    #plsq, success  = leastsq(residuals, p0, args=(template_waves, template, spectrum, error),full_output =1)
+    #plsq, cov_x, infodict, msg, ier = leastsq(residuals, p0, args=(template_waves, template, spectrum, error),full_output =1)
+    result = least_squares(residuals, p0, args=(template_waves, template, spectrum, error))
+    plsq = result.x
     shift, scale = plsq
     interp_spectrum = np.interp(template_waves, template_waves-shift, spectrum)
     interp_error = np.interp(template_waves, template_waves-shift, error)
@@ -291,8 +296,23 @@ for f in ancil.files:
     # loops over up-the-ramp-samples (skipping first two very short exposures); gets all needed input for optextr routine                    #
     #########################################################################################################################################################
 
-    #for ii in range(d[0].header['nsamp']-2):    
-    for ii in range(1, d[0].header['nsamp']-3):         #cuts off first and last scans -- see if it improves rms
+    spectrum = d[1].data[10:500,10:500]
+    spatial_pix = np.arange(len(spectrum.sum(axis =1)))
+    yshift = 0.
+    if nspectra == 0: 
+        template_spatial = spectrum.sum(axis = 1)
+        best_spatial = spectrum.sum(axis = 1)
+    else:
+        #calculates yshift
+        [best_spatial, best_var_spatial, yshift] = interpolate_spectrum(spectrum.sum(axis = 1), np.sqrt(np.abs(spectrum.sum(axis = 1))), template_spatial, spatial_pix, [-10., 1.0])
+        """plt.plot(spatial_pix, template_spatial, label = "template")
+        plt.plot(spatial_pix, spectrum.sum(axis = 1), label = "data")
+        plt.plot(spatial_pix, best_spatial, label = "interpolated") 
+        plt.legend()
+        plt.show()"""
+
+    for ii in range(d[0].header['nsamp']-2):    
+    #for ii in range(1, d[0].header['nsamp']-3):         #cuts off first and last scans -- see if it improves rms
         diff = d[ii*5 + 1].data[rmin:rmax,cmin:cmax] - d[ii*5 + 6].data[rmin:rmax,cmin:cmax]	#creates image that is the difference between successive scans
         diff = diff/flatfield[ancil.orbnum][rmin:rmax, cmin:cmax]                               #flatfields the differenced image
         idx = np.argmax(scipy.signal.medfilt(np.sum(diff, axis = 1),3))                         #computes spatial index of peak counts in the difference image
@@ -347,8 +367,6 @@ for f in ancil.files:
     template_waves = ancil.wave_grid[0, int(ancil.refpix[0,1]) + ancil.LTV1, cmin:cmax]             #LK interpolation 8/18
     shift = 0.
 
-    spatial_pix = np.arange(spectrum.shape[0])
-    yshift = 0.
 
     #corrects for wavelength drift over time
     if convert_to_bool(obs_par['correct_wave_shift']) == True:
@@ -357,20 +375,14 @@ for f in ancil.files:
             template_spectrum = spec_opt                                #makes the first exposure the template spectrum
             best_spec = spec_opt
             best_var = var_opt
-            
-            template_spatial = spectrum.sum(axis = 1)
-            best_spatial = spectrum.sum(axis = 1)
         else:
             #shifts spectrum so it matches the template
-            [best_spec, best_var, shift] = interpolate_spectrum(spec_opt, np.sqrt(var_opt), template_spectrum, template_waves)
+            [best_spec, best_var, shift] = interpolate_spectrum(spec_opt, np.sqrt(var_opt), template_spectrum, template_waves, [1.0e-4, 1.0])
             best_var = best_var**2
                 
             spec_opt = best_spec                                    #saves the interpolated spectrum
             var_opt = best_var
 
-            #calculates yshift
-            
-            [best_spatial, best_var_spatial, yshift] = interpolate_spectrum(spectrum.sum(axis = 1), np.sqrt(spectrum.sum(axis = 1)), template_spatial, spatial_pix)
 
     #if convert_to_bool(obs_par['plot_spectrum']) == True: plot_spectrum(ancil)
     #print sum(spec_opt)/sum(var_opt), sum(spec_box)/sum(var_box), sum(spec_opt)/sum(spec_box)
