@@ -15,7 +15,7 @@ class Data:
 	d = np.genfromtxt(data_file)
 	d = d[np.argsort(d[:,5])]   #FIXME (put indices in a file, or add header)
 
-        diag = np.genfromtxt("/Users/lkreidberg/Desktop/Projects/Observations/HST/W33_analysis/extracted_lc/08_25_12_53/diagnostics.txt")
+        diag = np.genfromtxt("/Users/lkreidberg/Desktop/Projects/Observations/HST/WASP33_HST15109/extracted_lc/08_25_12_53/diagnostics.txt")
         print "inputting diagnostics file path by hand :("
         diag = diag[np.argsort(diag[:,1])]
         #plt.plot(diag[:,1], diag[:,4], '.k')

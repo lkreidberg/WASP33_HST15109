@@ -119,6 +119,12 @@ tried higher frequency sine term (sine3) -- doesn't help
 
 searched for helium 10830 feature: fit_2018_08_25_16:03.txt. NOTHING!
 
+
+08/26/2018
+---------
+ephemeris is discrepant with Zhang et al. 2017 by 4 mins ... hmmm
+
+
 TODO:
 try convolving spectrum with instrument psf (like Drake does)
 GP?
