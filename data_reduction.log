@@ -73,13 +73,63 @@ reduced data with window = 200 pix
 try removing first/last up-the-ramp sample in data reduction - no improvement
     08_25_09_43. white lc rms = 159 ppm
 
+back to window of 100, adding yshift diagnostic
+    08_25_12_53, white lc rms = 159 ppm
+    decorrelating against spectral+spatial shift, redchi2 = 50.48, rms = 152 ppm
+    decorrelating against spatial shift, redchi2 = 49.74, rms = 152 ppm
+    decorrelating against neither, redchi2 = 48.72, rms = 152 ppm
+
+--> does NOT help to decorrelate against position (when sine period/phase = fixed)
+
+let sine period/phase vary, replace v and v2 with decorrelation against xshift
+    looks good! rms = 132
+
+['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2']
+ --> rms, redchi2 = 130, 38.89
+
+myfuncs = ['constant', 'upstream_downstream', 'model_ramp', 'eclipse', 'sine2', 'spatial_shift'] 
+ --> rms, redchi2 = 132, 39.08
+
+basically no difference between polynomial2 vs spatial_shift decorrelation!!
+    spectral shift doesn't help at all
+
+BUT -- emission spectrum doesn't look nearly as nice :(
+     fit_2018_08_25_13:50.txt
+
+tried fitting with polynomial2, spectrum has less scatter, looks more blackbody
+
+divide-white has weird systematic trend in spectrum (fit_2018_08_25_14:07.txt)
+    even though some of the light curve fits look ok
+
+for spec_lc, results for polynomial1 and polynomial2 are equivalent
+
+ackbar looks really good! but I tweaked the cRate parameter by hand ...
+    let t0 and sine parameters vary ... best rms yet! rms = 109
+
+try model_ramp with updated ephemeris and sine parameters -- not as good (136)
+try ackbar with spatial_shift instead of polynomial1 -- not as good
+
+ackbar looks good and gets very similar results to model_ramp, modulo
+    a constant offset of 150 ppm and better chisq
+
+test model_ramp with corrected ephemeris -- not as good as ackbar
+    but it looks like the polynomial1 model isn't the best fit ...
+
+tried higher frequency sine term (sine3) -- doesn't help 
+
+searched for helium 10830 feature: fit_2018_08_25_16:03.txt. NOTHING!
+
+
+08/26/2018
+---------
+ephemeris is discrepant with Zhang et al. 2017 by 4 mins ... hmmm
+
 
 TODO:
-try decorrelating against spatial shift
 try convolving spectrum with instrument psf (like Drake does)
 GP?
-ackbar?
 run MCMC
+dynesty?
 
 
 check how much the background counts contribute to eclipse depth dilution

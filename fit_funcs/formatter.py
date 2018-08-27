@@ -27,9 +27,13 @@ class FormatParams:
         self.a2 = params[data.par_order['a2']*data.nvisit:(1 + data.par_order['a2'])*data.nvisit]
         self.omega2 = params[data.par_order['omega2']*data.nvisit:(1 + data.par_order['omega2'])*data.nvisit]
         self.phi2 = params[data.par_order['phi2']*data.nvisit:(1 + data.par_order['phi2'])*data.nvisit]
+        self.a3 = params[data.par_order['a3']*data.nvisit:(1 + data.par_order['a3'])*data.nvisit]
+        self.omega3 = params[data.par_order['omega3']*data.nvisit:(1 + data.par_order['omega3'])*data.nvisit]
+        self.phi3 = params[data.par_order['phi3']*data.nvisit:(1 + data.par_order['phi3'])*data.nvisit]
         self.trap_pop_s = params[data.par_order['trap_pop_s']*data.nvisit:(1 + data.par_order['trap_pop_s'])*data.nvisit]
         self.trap_pop_f = params[data.par_order['trap_pop_f']*data.nvisit:(1 + data.par_order['trap_pop_f'])*data.nvisit]
-        self.shift = params[data.par_order['shift']*data.nvisit:(1 + data.par_order['shift'])*data.nvisit]
+        self.xshift = params[data.par_order['xshift']*data.nvisit:(1 + data.par_order['xshift'])*data.nvisit]
+        self.yshift = params[data.par_order['yshift']*data.nvisit:(1 + data.par_order['yshift'])*data.nvisit]
 
 def PrintParams(m, data): 
     print "per\t", m.params[data.par_order['per']*data.nvisit:(1 + data.par_order['per'])*data.nvisit]
@@ -56,10 +60,14 @@ def PrintParams(m, data):
     print "a2\t", m.params[data.par_order['a2']*data.nvisit:(1 + data.par_order['a2'])*data.nvisit]
     print "omega2\t", m.params[data.par_order['omega2']*data.nvisit:(1 + data.par_order['omega2'])*data.nvisit]
     print "phi2\t", m.params[data.par_order['phi2']*data.nvisit:(1 + data.par_order['phi2'])*data.nvisit]
+    print "a3\t", m.params[data.par_order['a3']*data.nvisit:(1 + data.par_order['a3'])*data.nvisit]
+    print "omega3\t", m.params[data.par_order['omega3']*data.nvisit:(1 + data.par_order['omega3'])*data.nvisit]
+    print "phi3\t", m.params[data.par_order['phi3']*data.nvisit:(1 + data.par_order['phi3'])*data.nvisit]
     print "trap_pop_s\t", m.params[data.par_order['trap_pop_s']*data.nvisit:(1 + data.par_order['trap_pop_s'])*data.nvisit]
     print "trap_pop_f\t", m.params[data.par_order['trap_pop_f']*data.nvisit:(1 + data.par_order['trap_pop_f'])*data.nvisit]
     print "dTrap_s\t", m.params[data.par_order['dTrap_s']*data.nvisit:(1 + data.par_order['dTrap_s'])*data.nvisit]
     print "dTrap_f\t", m.params[data.par_order['dTrap_f']*data.nvisit:(1 + data.par_order['dTrap_f'])*data.nvisit]
-    print "shift\t", m.params[data.par_order['shift']*data.nvisit:(1 + data.par_order['shift'])*data.nvisit]
+    print "xshift\t", m.params[data.par_order['xshift']*data.nvisit:(1 + data.par_order['xshift'])*data.nvisit]
+    print "yshift\t", m.params[data.par_order['yshift']*data.nvisit:(1 + data.par_order['yshift'])*data.nvisit]
     print "perror", m.perror
 

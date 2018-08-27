@@ -4,7 +4,6 @@ import numpy as np
 from read_data import Data
 
 def spectral_shift(t, data, params):
-    shift = params
+    xshift = params
 
-    print 1. + shift*data.spectral_shift
-    return 1. + shift*data.spectral_shift
+    return 1. + xshift*data.spectral_shift
