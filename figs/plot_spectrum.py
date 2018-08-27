@@ -66,7 +66,7 @@ for i, f in enumerate(files):
 #	plt.plot(d[:,1]*1.e4, boxcar_smooth(d[:,4], 5), label = labels[i], color = colors[i])
 
 #s = np.genfromtxt("w33_data_haynes.txt")
-s = np.genfromtxt("w33_g141_kreidberg.txt")
+s = np.genfromtxt("../../WASP33_HST12495/vis_1/analysis/fit_2018_08_27_13:35.txt")
 offset = 0.00017
 #plt.errorbar(s[:,0], s[:,1]/100. - offset, s[:,2]/100., marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
 plt.errorbar(s[:,0], s[:,1], s[:,2], marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
