@@ -54,39 +54,32 @@ g = Gaussian1DKernel(stddev=1.1)
 files  = ["wasp33b_from_Madhu/spec.dat", "wasp33b_from_Madhu/spec_notio.dat"]
 labels  = ["best fit model", "best fit with no TiO"]
 colors = ['blue', 'red']
+linestyles = ['dotted', 'dashed']
 
 plt.figure(figsize = (12,6))
 
 
 for i, f in enumerate(files):
 	d = np.genfromtxt(f, skip_header = 2)
+	plt.plot(d[:,1]*1.e4, convolve(d[:,4], g, boundary = 'extend'), label = labels[i], color = '0.5', alpha = 0.5, linestyle = linestyles[i])
 
-	plt.plot(d[:,1]*1.e4, convolve(d[:,4], g, boundary = 'extend'), label = labels[i], color = colors[i], alpha = 0.5)
-	#plt.plot(d[:,1]*1.e4, d[:,4], label = labels[i]) 
-#	plt.plot(d[:,1]*1.e4, boxcar_smooth(d[:,4], 5), label = labels[i], color = colors[i])
+s = np.genfromtxt("w33_data_haynes.txt")
+plt.errorbar(s[:,0], s[:,1]/100., s[:,2]/100., marker='.', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes)")
 
-#s = np.genfromtxt("w33_data_haynes.txt")
-#s = np.genfromtxt("w33_g141_kreidberg.txt")
-s = np.genfromtxt("../../WASP33_HST12495/vis_1/analysis/fit_2018_08_26_13:43.txt")
-offset = 0.00017
-#plt.errorbar(s[:,0], s[:,1]/100. - offset, s[:,2]/100., marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
-plt.errorbar(s[:,0], s[:,1], s[:,2]*np.sqrt(s[:,5]), marker='o', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes et al. 2015)")
+s = np.genfromtxt("../../WASP33_HST12495/vis_combined/analysis/fit_2018_08_28_17:48.txt")
+offset = 0.0001
+#offset = 0.0
+plt.errorbar(s[:,0], s[:,1] - offset, s[:,2]*np.sqrt(s[:,5]), marker='.', color='r', linestyle='none', zorder=100, label="G141 data (Kreidberg)")
 
 
-
-#d = np.genfromtxt("../analysis/fit_2018_08_23_10:45.txt")
-#d = np.genfromtxt("../analysis/fit_2018_08_23_17:42.txt")
-#d = np.genfromtxt("../analysis/fit_2018_08_25_13:50.txt")
-#d = np.genfromtxt("../analysis/fit_2018_08_25_13:56.txt")
 d = np.genfromtxt("../analysis/fit_2018_08_25_15:19.txt")
-plt.errorbar(d[:,0], d[:,1], d[:,2]*np.sqrt(d[:,5]), fmt = '.k', zorder=100, label = "G102 data")
+plt.errorbar(d[:,0], d[:,1], d[:,2]*np.sqrt(d[:,5]), fmt = '.b', zorder=100, label = "G102 data")
 
 xm, ym, Tbest, chi2  = best_fit_bb(d[:,0], d[:,1], d[:,2], 7400, 0.1106)
 print Tbest
-plt.plot(xm, ym, color='0.4', linestyle='dotted', label = 'blackbody fit')
+plt.plot(xm, ym, color='0.5',  label = 'blackbody fit', alpha = 0.5)
 
 
-#plt.ylim(0, 1.3e-3)
 plt.ylim(0.0, 1.8e-3)
 plt.xlim(0.75, 1.7)
 
