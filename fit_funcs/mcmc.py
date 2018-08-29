@@ -1,4 +1,12 @@
 import emcee
+import numpy as np
+import pickle
+import corner
+from datetime import datetime
+from scipy.stats import norm
+
+def quantile(x, q):                                                             
+        return np.percentile(x, [100. * qi for qi in q]) 
 
 def format_params_for_mcmc(params, obs_par, fit_par):	#FIXME: make sure this works for cases when nvisit>1
     nvisit = int(obs_par['nvisit'])				
@@ -44,31 +52,19 @@ def format_params_for_Model(theta, params, obs_par, fit_par):
                                     iter += 1
     return np.array(params_updated)
 
-def mcmc_fit(file_name, obs_par, fit_par, flags):
-    data = Data(file_name, obs_par, fit_par)
-    if flags['divide-white']:
-            sys_vector = np.genfromtxt("white_systematics.txt")
-            data.all_sys = sys_vector
-            data.nfree_param -= 2
-            data.dof += 2
-            print "subtracting 2 from dof for divide-white"
-
-
-    print "e1", np.median(data.err)
-    data, params = least_sq_fit(file_name, obs_par, fit_par, data, flags, myfuncs)		#starting guess
-    print "e2", np.median(data.err)
+def mcmc_fit(data, model, params, file_name, obs_par, fit_par):
     theta = format_params_for_mcmc(params, obs_par, fit_par)	
 
     ndim, nwalkers = len(theta), 50					#FIXME set nwalkers is a config file
-    sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args = (params, data, obs_par, fit_par, flags))
+    sampler = emcee.EnsembleSampler(nwalkers, ndim, lnprob, args = (params, data, model, obs_par, fit_par))
 
     pos = [theta + 1e-5*np.random.randn(ndim) for i in range(nwalkers)]
 
-    sampler.run_mcmc(pos,1000)
-    #sampler.run_mcmc(pos,10000)
+    #sampler.run_mcmc(pos,2000)
+    sampler.run_mcmc(pos,5000)
     pickle.dump([data, params, sampler.chain], open("mcmc_out."+"{0:0.2f}".format(data.wavelength)+".p", "wb"))
 
-    samples = sampler.chain[:, 100:, :].reshape((-1, ndim))
+    samples = sampler.chain[:, 500:, :].reshape((-1, ndim))
     mcmc_output(samples, params, obs_par, fit_par, data)
 
     medians = []
@@ -81,18 +77,13 @@ def mcmc_fit(file_name, obs_par, fit_par, flags):
     return data.wavelength, medians[0], errors[0], samples
 
 
-def lnprior(theta, params, data, obs_par, fit_par, flags):
-    #updated_params = format_params_for_Model(theta, params, obs_par, fit_par)
-    #if sum(np.array(updated_params[data.par_order['c']*data.nvisit:(1 + data.par_order['c'])*data.nvisit])<0)>0: return -np.inf
-    #else: return 0.
+def lnprior(theta):
     return 0.
     
 
-def lnprob(theta, params, data, obs_par, fit_par, flags):
+def lnprob(theta, params, data, model, obs_par, fit_par):
+    #print theta
     updated_params = format_params_for_Model(theta, params, obs_par, fit_par)
-    #plot(updated_params, data, flags)
-    m = Model(updated_params, data, flags, myfuncs)
-    lp = lnprior(theta, params, data, obs_par, fit_par, flags, myfuncs)
-    #cs = updated_params[data.par_order['c']*data.nvisit:(1 + data.par_order['c'])*data.nvisit]
-    #print cs[0], cs[1], m.ln_likelihood
-    return m.ln_likelihood + lp
+    fit = model.fit(data, updated_params)
+    lp = lnprior(theta)
+    return fit.ln_like + lp

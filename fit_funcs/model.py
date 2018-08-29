@@ -57,8 +57,8 @@ class Model:
             ind = data.vis_num == visit     
 
             t = data.time[ind]
-            per  = params[data.par_order['per'] + visit]
-            t0  = params[data.par_order['t0'] + visit]
+            per  = params[data.par_order['per']*data.nvisit + visit]
+            t0  = params[data.par_order['t0']*data.nvisit + visit]
             self.phase[ind] = (t - t0)/per - np.floor((t - t0)/per)
             self.model_sys[ind] = calc_sys(t, params, data, self.myfuncs, visit)
             self.model_astro[ind] = calc_astro(t, params, data, self.myfuncs, visit)

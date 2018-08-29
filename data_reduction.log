@@ -124,6 +124,10 @@ searched for helium 10830 feature: fit_2018_08_25_16:03.txt. NOTHING!
 ---------
 ephemeris is discrepant with Zhang et al. 2017 by 4 mins ... hmmm
 
+08.29.18
+--------
+fixing a1 and a2 for spec_lc fits
+running mcmc
 
 TODO:
 fit model_ramp for consistency with G141 analysis
