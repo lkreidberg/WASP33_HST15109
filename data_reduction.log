@@ -126,14 +126,12 @@ ephemeris is discrepant with Zhang et al. 2017 by 4 mins ... hmmm
 
 
 TODO:
+fit model_ramp for consistency with G141 analysis
+run MCMC
+
 try convolving spectrum with instrument psf (like Drake does)
 GP?
 run MCMC
 dynesty?
 
-
-check how much the background counts contribute to eclipse depth dilution
-    (Haynes says it's ~100 ppm)
-
-check whether you're double counting leap seconds
 

@@ -33,13 +33,12 @@ def blackbody(l,T):
 
 
 def best_fit_bb(w, y, e, Tstar, rprs):
-	Ts = np.linspace(2800, 4000, 100)
+	Ts = np.linspace(2800, 3200, 1000)
 	chibest = 10000.
 	Tbest = 0.	
 	w = np.array(w)
 	for T in Ts:
 		model = blackbody(w*1.0e-6, T)/blackbody(w*1.0e-6, Tstar)*rprs**2
-		print np.median(model)
 		chi2 = np.sum((y - model)**2/e**2)
 		if chi2 < chibest: 
 			chibest, Tbest = chi2, T
@@ -59,14 +58,15 @@ linestyles = ['dotted', 'dashed']
 plt.figure(figsize = (12,6))
 
 
-for i, f in enumerate(files):
+"""for i, f in enumerate(files):
 	d = np.genfromtxt(f, skip_header = 2)
-	plt.plot(d[:,1]*1.e4, convolve(d[:,4], g, boundary = 'extend'), label = labels[i], color = '0.5', alpha = 0.5, linestyle = linestyles[i])
+	plt.plot(d[:,1]*1.e4, convolve(d[:,4], g, boundary = 'extend'), label = labels[i], color = '0.5', alpha = 0.5, linestyle = linestyles[i])"""
 
 s = np.genfromtxt("w33_data_haynes.txt")
-plt.errorbar(s[:,0], s[:,1]/100., s[:,2]/100., marker='.', color='0.5', linestyle='none', zorder=100, label="G141 data (Haynes)")
+plt.errorbar(s[:,0], s[:,1]/100., s[:,2]/100., fmt = 'ow', markersize = 4, ecolor = 'k', markeredgecolor = 'k', markeredgewidth = 1., linewidth = 1., linestyle='none', zorder=100, label="G141 data (Haynes)")
 
-s = np.genfromtxt("../../WASP33_HST12495/vis_combined/analysis/fit_2018_08_28_17:48.txt")
+#s = np.genfromtxt("../../WASP33_HST12495/vis_combined/analysis/fit_2018_08_28_17:48.txt")
+s = np.genfromtxt("../../WASP33_HST12495/vis_combined/analysis/fit_2018_08_28_18:32.txt")
 offset = 0.0001
 #offset = 0.0
 plt.errorbar(s[:,0], s[:,1] - offset, s[:,2]*np.sqrt(s[:,5]), marker='.', color='r', linestyle='none', zorder=100, label="G141 data (Kreidberg)")
@@ -76,8 +76,8 @@ d = np.genfromtxt("../analysis/fit_2018_08_25_15:19.txt")
 plt.errorbar(d[:,0], d[:,1], d[:,2]*np.sqrt(d[:,5]), fmt = '.b', zorder=100, label = "G102 data")
 
 xm, ym, Tbest, chi2  = best_fit_bb(d[:,0], d[:,1], d[:,2], 7400, 0.1106)
-print Tbest
-plt.plot(xm, ym, color='0.5',  label = 'blackbody fit', alpha = 0.5)
+print "best fit T", Tbest
+plt.plot(xm, ym, color='0.5',  label = 'blackbody fit to G102', alpha = 0.5, linestyle='dotted', zorder = 0.5)
 
 
 plt.ylim(0.0, 1.8e-3)
