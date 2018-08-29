@@ -34,8 +34,8 @@ def main():
     #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'model_ramp', 'eclipse', 'sine2'] 
     #myfuncs = ['constant', 'upstream_downstream', 'model_ramp', 'eclipse', 'sine2', 'spatial_shift'] 
     #myfuncs = ['constant', 'upstream_downstream', 'polynomial1', 'eclipse', 'model_ramp'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
-    myfuncs = ['constant', 'upstream_downstream'] 
+    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
+    #myfuncs = ['constant', 'upstream_downstream'] 
 
 
     #significance above which to mask outliers
