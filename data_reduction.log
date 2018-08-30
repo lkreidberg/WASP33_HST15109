@@ -138,7 +138,21 @@ ackbar wins!
 
 08.30.18
 --------
-try fixing sine amplitudes for ackbar
+try fixing sine amplitudes for ackbar (mcmc_output_ackbar_fixamps)
+
+
+testing least squares fits for different assumptions about sinusoids
+  A  all sine2 params fixed on broadband values (fit_2018_08_30_13:50.txt)
+  B  sine2 amplitudes vary (fit_2018_08_30_13:52.txt)
+  C  all parameters vary (fit_2018_08_30_13:53.txt)
+
+A versus B -- redchi2 are indistinguishable, depths differ by 0.2 sigma on average
+A versus C -- A has better redchi2 (5% lower by median), depths differ by 0.5 sigma on average
+
+
+try making cRates wavelength dpeendent for ackbar (scaling based on different mean fluxes in each bin)
+if sine amplitudes are allow to vary with wavelength, the spectrum comes out flat (fit_2018_08_30_17:07.txt)
+
 
 try convolving spectrum with instrument psf (like Drake does)
 GP?

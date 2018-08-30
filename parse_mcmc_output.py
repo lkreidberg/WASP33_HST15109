@@ -12,7 +12,8 @@ import matplotlib.pyplot as plt
 def quantile(x, q): return np.percentile(x, [100. * qi for qi in q]) 
 
 #path = "mcmc_output_ackbar_25bins/"
-path = "mcmc_output_mr_25bins/"
+#path = "mcmc_output_mr_25bins/"
+path = "mcmc_output_ackbar_fixamps/"
 
 mcmc = glob.glob(os.path.join(path, "mcmc*.p"))
 lsq = glob.glob(os.path.join(path, "lsq*.p"))
@@ -22,6 +23,8 @@ print "AHHHHHHHHHHH"
 
 if path == "mcmc_output_ackbar_25bins/": 
     ndim = 10
+if path == "mcmc_output_ackbar_fixamps/": 
+    ndim = 8
 elif path == "mcmc_output_mr_25bins/": 
     ndim = 9
 else: ndim = 0

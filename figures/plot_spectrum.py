@@ -65,15 +65,14 @@ plt.figure(figsize = (12,6))
 s = np.genfromtxt("w33_data_haynes.txt")
 plt.errorbar(s[:,0], s[:,1]/100., s[:,2]/100., fmt = 'ow', markersize = 4, ecolor = 'k', markeredgecolor = 'k', markeredgewidth = 1., linewidth = 1., linestyle='none', zorder=100, label="G141 data (Haynes)")
 
-#s = np.genfromtxt("../../WASP33_HST12495/vis_combined/analysis/fit_2018_08_28_17:48.txt")
-s = np.genfromtxt("../../WASP33_HST12495/vis_combined/analysis/fit_2018_08_28_18:32.txt")
-offset = 0.0001
-#offset = 0.0
-plt.errorbar(s[:,0], s[:,1] - offset, s[:,2]*np.sqrt(s[:,5]), marker='.', color='r', linestyle='none', zorder=100, label="G141 data (Kreidberg)")
+s = np.genfromtxt("../../WASP33_HST12495/vis_combined/mcmc_11bins_mr_fixsine/emission_spectrum.txt")
+#offset = 0.0001
+offset = 0.0
+plt.errorbar(s[:,0], s[:,1] - offset, s[:,2], marker='.', color='r', linestyle='none', zorder=100, label="G141 data (Kreidberg)")
 
 
-d = np.genfromtxt("../analysis/fit_2018_08_25_15:19.txt")
-plt.errorbar(d[:,0], d[:,1], d[:,2]*np.sqrt(d[:,5]), fmt = '.b', zorder=100, label = "G102 data")
+d = np.genfromtxt("../mcmc_output_ackbar_fixamps/emission_spectrum.txt")
+plt.errorbar(d[:,0], d[:,1], d[:,2], fmt = '.b', zorder=100, label = "G102 data")
 
 xm, ym, Tbest, chi2  = best_fit_bb(d[:,0], d[:,1], d[:,2], 7400, 0.1106)
 print "best fit T", Tbest
