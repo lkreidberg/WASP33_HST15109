@@ -125,12 +125,22 @@ searched for helium 10830 feature: fit_2018_08_25_16:03.txt. NOTHING!
 ephemeris is discrepant with Zhang et al. 2017 by 4 mins ... hmmm
 
 
-TODO:
+08.29.18
+----------
 fit model_ramp for consistency with G141 analysis
-run MCMC
+ran MCMC
+model ramp gives worse fit (MCMC uncertainties larger by 23%)
+model ramp eclipse depths are smaller by 280 ppm
+but ... mean-subtracted eclipse depths differ by less than 0.23 sigma on average
+    (0.19 sigma median)
+ackbar wins!
+
+
+08.30.18
+--------
+try fixing sine amplitudes for ackbar
 
 try convolving spectrum with instrument psf (like Drake does)
 GP?
-run MCMC
 dynesty?
 
