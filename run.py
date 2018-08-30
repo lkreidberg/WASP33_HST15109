@@ -30,8 +30,8 @@ def usage():
 
 
 def main():
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
-    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'model_ramp', 'eclipse', 'sine2'] 
+    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
+    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'model_ramp', 'eclipse', 'sine2'] 
     #myfuncs = ['constant', 'upstream_downstream'] 
 
 
