@@ -45,8 +45,8 @@ def lsq_fit(fit_par, data, flags, model, myfuncs):
     if flags['divide-white']:
             sys_vector = np.genfromtxt("white_systematics.txt")
             data.all_sys = sys_vector
-            data.nfree_param -= 2
-            data.dof += 2
+            #data.nfree_param -= 2
+            #data.dof += 2
 #		print "subtracting 2 from dof for divide-white"
 
 
@@ -69,8 +69,8 @@ def lsq_fit(fit_par, data, flags, model, myfuncs):
                   "{0:0.3f}".format(m.params[data.par_order['u1']*nvisit]),\
                   "{0:0.3f}".format(m.params[data.par_order['u2']*nvisit]),\
                   "{0:0.2f}".format(model.chi2red)
-                   
         pickle.dump([data, model], open("lsq_fit_" + "{0:0.4f}".format(data.wavelength)+".p", "wb"))
+                   
         #pickle.dump([data, model], open("white_lc_fit.p", "wb"))
         f.close()
 

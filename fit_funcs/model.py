@@ -4,23 +4,22 @@ import numpy as np
 from formatter import FormatParams
 from functions import Functions
 
-def calc_astro(t, params, data, funcs, visit):
-
-    flux = np.ones_like(t)
+def calc_astro(idx, params, data, funcs, visit):
+    flux = np.ones(int(sum(idx)))
     for i, f in enumerate(funcs.astro): 
         #selects parameters to pass to function
         funcparams = [params[j + visit] for j in funcs.astro_porder[i]]
-        flux *= f(t, data, funcparams)
+        flux *= f(idx, data, funcparams)
 
     return flux 
 
-def calc_sys(t, params, data, funcs, visit):
+def calc_sys(idx, params, data, funcs, visit):
 
-    flux = np.ones_like(t)
+    flux = np.ones(int(sum(idx)))
     for i, f in enumerate(funcs.sys): 
         #selects parameters to pass to function
         funcparams = [params[j + visit] for j in funcs.sys_porder[i]]
-        flux *= f(t, data, funcparams) 
+        flux *= f(idx, data, funcparams) 
 
     return flux 
 
@@ -54,14 +53,15 @@ class Model:
         #loop over each observation
         for visit in range(data.nvisit):
             #FIXME don't do this every time fit is run
-            ind = data.vis_num == visit     
+            idx = data.vis_num == visit     
 
-            t = data.time[ind]
+            t = data.time[idx]
+
             per  = params[data.par_order['per']*data.nvisit + visit]
             t0  = params[data.par_order['t0']*data.nvisit + visit]
-            self.phase[ind] = (t - t0)/per - np.floor((t - t0)/per)
-            self.model_sys[ind] = calc_sys(t, params, data, self.myfuncs, visit)
-            self.model_astro[ind] = calc_astro(t, params, data, self.myfuncs, visit)
+            self.phase[idx] = (t - t0)/per - np.floor((t - t0)/per)
+            self.model_sys[idx] = calc_sys(idx, params, data, self.myfuncs, visit)
+            self.model_astro[idx] = calc_astro(idx, params, data, self.myfuncs, visit)
 
         self.params = params
         self.model = self.model_sys*self.model_astro

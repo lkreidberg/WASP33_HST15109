@@ -10,7 +10,7 @@ import time as pythontime
 from read_data import Data
 from model import Model
 from least_squares import lsq_fit
-from mcmc import mcmc_fit  
+from mcmc import mcmc_fit
                     
 def usage():
     cmd = sys.argv[0]
@@ -30,12 +30,8 @@ def usage():
 
 
 def main():
-    #myfuncs = ['constant', 'divide_white', 'polynomial1', 'eclipse'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'model_ramp', 'eclipse', 'sine2'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'model_ramp', 'eclipse', 'sine2', 'spatial_shift'] 
-    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1', 'eclipse', 'model_ramp'] 
-    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
+    #myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
+    myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'model_ramp', 'eclipse', 'sine2'] 
     #myfuncs = ['constant', 'upstream_downstream'] 
 
 
@@ -91,21 +87,22 @@ def main():
 
     flags['out-name'] = "fit_" + pythontime.strftime("%Y_%m_%d_%H:%M") + ".txt"
 
-    for f in files:                                                             
-        data = Data(f, obs_par, fit_par)                                        
-        model = Model(data, myfuncs)                                            
-        data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)     
-                                                                                
+    for f in files:
+        data = Data(f, obs_par, fit_par)
+        model = Model(data, myfuncs)
+        data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)
+
         data.err *= np.sqrt(model.chi2red)                                      
-        data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)     
-                                                                                
-        #FIXME : make this automatic!                                           
-        """outfile = open("white_systematics.txt", "w")                         
-        for i in range(len(model.all_sys)): print>>outfile, model.all_sys[i]    
-        outfile.close()"""                                                      
-                                                                                
-        if flags['run-mcmc']:   output = mcmc_fit(data, model, params, f, obs_par, fit_par)         
-                        
+        data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)  
+
+        #FIXME : make this automatic!
+        """outfile = open("white_systematics.txt", "w")
+        for i in range(len(model.all_sys)): print>>outfile, model.all_sys[i]
+        outfile.close()"""
+
+        if flags['run-mcmc']:
+            output = mcmc_fit(data, model, params, f, obs_par, fit_par)     
+                            
 
 if __name__ == '__main__':
     main()

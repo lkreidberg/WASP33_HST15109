@@ -37,3 +37,4 @@ s = np.load("G102_sensitivity.npy")
 plt.plot(s[:,0], s[:,1], color='r')
 
 plt.show()
+

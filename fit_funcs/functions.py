@@ -5,15 +5,12 @@ from polynomial1 import polynomial1
 from polynomial2 import polynomial2
 from sine1 import sine1
 from sine2 import sine2
-from sine3 import sine3
 from upstream_downstream import upstream_downstream
 from transit import transit
 from eclipse import eclipse
 from model_ramp import model_ramp
 from divide_white import divide_white
 from ackbar import ackbar
-from spectral_shift import spectral_shift
-from spatial_shift import spatial_shift
 
 #need to automate appending parameters to functions
 class Functions:
@@ -56,19 +53,6 @@ class Functions:
                     data.par_order['omega2']*data.nvisit,
                     data.par_order['phi2']*data.nvisit
                 ]) 
-            elif f == "sine3":
-                self.sys.append(sine3)
-                self.sys_porder.append([
-                    data.par_order['a1']*data.nvisit,
-                    data.par_order['omega1']*data.nvisit,
-                    data.par_order['phi1']*data.nvisit,
-                    data.par_order['a2']*data.nvisit,
-                    data.par_order['omega2']*data.nvisit,
-                    data.par_order['phi2']*data.nvisit,
-                    data.par_order['a3']*data.nvisit,
-                    data.par_order['omega3']*data.nvisit,
-                    data.par_order['phi3']*data.nvisit
-                ]) 
             elif f == "model_ramp":
                 self.sys.append(model_ramp)
                 self.sys_porder.append([
@@ -87,16 +71,6 @@ class Functions:
             elif f == "divide_white":
                 self.sys.append(divide_white)
                 self.sys_porder.append([])
-            elif f == "spectral_shift":
-                self.sys.append(spectral_shift)
-                self.sys_porder.append([
-                    data.par_order['xshift']*data.nvisit,
-                ]) 
-            elif f == "spatial_shift":
-                self.sys.append(spectral_shift)
-                self.sys_porder.append([
-                    data.par_order['yshift']*data.nvisit,
-                ]) 
             elif f == "transit":
                 self.astro.append(transit)
                 self.astro_porder.append([

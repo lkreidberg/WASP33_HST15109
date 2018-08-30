@@ -7,22 +7,28 @@ import glob
 import numpy as np
 from read_data import Data
 from model import Model
+import matplotlib.pyplot as plt
 
 def quantile(x, q): return np.percentile(x, [100. * qi for qi in q]) 
 
-path = "mcmc_output/21bins/"
+path = "mcmc_output_ackbar_25bins"
+#path = "mcmc_output_mr_25bins"
 
 mcmc = glob.glob(os.path.join(path, "mcmc*.p"))
 lsq = glob.glob(os.path.join(path, "lsq*.p"))
 
 print "FIXME setting ndim by hand"
+print "AHHHHHHHHHHH"
 
-print "#wavelength, depth, depth_err, u1, u1_err, chi2red"
+
+xs, ys, es = [], [], []
+
 for m, l in zip(mcmc, lsq):
     data, params, chain = pickle.load(open(m, "r"))
     data, model = pickle.load(open(l, "r"))
 
-    ndim = 5
+    #ndim = 7
+    ndim = 10
     samples = chain[:, 500:, :].reshape((-1, ndim))
     
     medians, errors = [], []
@@ -32,9 +38,12 @@ for m, l in zip(mcmc, lsq):
             medians.append(q[1])
             errors.append(q[2] - q[1])
     
-    edepth, edepth_err =  (medians[0])**2, 2.*errors[0]*medians[0] 
-    u1, u1_err =  medians[1], errors[1]
-    print data.wavelength, "{0:0.6f}".format(depth), \
-            "{0:0.1e}".format(depth_err*max(1., np.sqrt(model.chi2red))), \
-            "{0:0.3f}".format(u1), "{0:0.3f}".format(u1_err), \
-            "{0:0.2f}".format(model.chi2red)
+    y, ye = medians[0], errors[0]
+    print data.wavelength,  y, ye 
+
+    xs.append(data.wavelength)
+    ys.append(y)
+    es.append(ye)
+
+plt.errorbar(np.array(xs), np.array(ys), yerr = np.array(es), fmt = '.k')
+plt.show()

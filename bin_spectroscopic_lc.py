@@ -74,3 +74,4 @@ for wave in wave_bins: plt.axvline(wave, color = '0.5')
 plt.ylabel("Photelectrons")
 plt.xlabel("Wavelength (angstroms)")
 plt.show()
+

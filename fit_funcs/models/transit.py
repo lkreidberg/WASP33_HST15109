@@ -1,9 +1,11 @@
 import batman
 
-def transit(t, data, params):
-	p = batman.TransitParams()
+def transit(idx, data, params):
+        t = data.time[idx]
 
+	p = batman.TransitParams()
         t0, per, rp, a, inc, ecc, w, u1, u2, limb_dark = params
+        #FIXME
         if limb_dark == 2: p.limb_dark = "quadratic"
         else: 
             print "unsupported limb darkening parameter"

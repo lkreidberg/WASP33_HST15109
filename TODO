@@ -1,4 +1,3 @@
-
 combine obs_par and fit_par? maybe use a dictionary? -- get rid of obs_par
 
 make a file that stores what is in each column in the raw data (or add headers)

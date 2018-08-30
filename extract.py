@@ -195,7 +195,6 @@ def plot_spectrum(spec_opt, ancil):
     w = w[idx]
     model = m[1][idx]
     plt.plot(w, model/np.max(model), label = "phoenix")
-
     plt.plot(template_waves, 1.01*spec_opt/np.max(spec_opt), label = "data", color='red')
     plt.xlabel("Wavelength (microns)")
     plt.ylabel("Normalized flux")
@@ -408,4 +407,3 @@ if ancil.output == True:
 print "I made a change to how the wavelength interpolation is being done"
 print "it's commented as LK 8/18"
 print "Should check at some point to see if it's right"
-

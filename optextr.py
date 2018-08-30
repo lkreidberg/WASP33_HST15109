@@ -124,5 +124,3 @@ def optextr(D, err, f_std, var_std, M, nsmooth, sig_cut, diagnostics):
 	if diagnostics == True: diagnostics_plot(D, M, indmax, outlier_array, f_opt, profile)
 
 	return f_opt, var_opt, numoutliers
-
-
