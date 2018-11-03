@@ -1,0 +1,25 @@
+10/22/18:
+fixing sinusoid periods on vonEssen values
+
+get better results with higher cRates value
+
+trap_pop_s	[588.19014122]
+trap_pop_f	[179.99213045]
+dTrap_s	[223.77671125]
+dTrap_f	[104.42700905]
+essena1	[0.00090363]
+essenphi1	[3.71351613]
+essena2	[0.00060835]
+essenphi2	[4.89530514]
+essena3	[0.00033224]
+essenphi3	[3.07993537]
+
+ --> white light rms = 132 ppm (cRates = 290)
+
+
+higher cRates gives reasonable fits
+also get good fits for varying cRates with actual count rate
+
+
+emission spectrum levels off at redder wavelengths? fit_2018_10_22_16:07.txt
+(but some fits aren't great)
