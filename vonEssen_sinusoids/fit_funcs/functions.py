@@ -55,7 +55,10 @@ class Functions:
                     data.par_order['phi2']*data.nvisit,
                     data.par_order['a3']*data.nvisit,
                     data.par_order['omega3']*data.nvisit,
-                    data.par_order['phi3']*data.nvisit
+                    data.par_order['phi3']*data.nvisit,
+                    data.par_order['a4']*data.nvisit,
+                    data.par_order['omega4']*data.nvisit,
+                    data.par_order['phi4']*data.nvisit
                 ]) 
             elif f == "essensine":
                 self.sys.append(essensine)

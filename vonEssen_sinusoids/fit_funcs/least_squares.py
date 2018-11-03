@@ -79,6 +79,7 @@ def lsq_fit(fit_par, data, flags, model, myfuncs):
         #print "{0:0.3f}".format(data.wavelength), "{0:0.2f}".format(bestfit.chi2red)
         #print data.wavelength, "{0:0.3f}".format(m.params[data.par_order['A1']*nvisit])
         PrintParams(m, data)
+        print "BIC", model.bic
 
     if flags['show-plot']: plot_fit(data, model)
 

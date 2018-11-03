@@ -45,12 +45,13 @@ def ackbar(idx, data, params):
     t = data.time[idx]
 
     #cRates = 967.*np.ones_like(t)              #calculate this based on white light average (need to do better! FIXME) 
-    mean = 12173979.5                                                           
+    """mean = 12173979.5                                                           
     cRates = 290.*np.ones_like(t)*mean/np.mean(data.flux)
-    cRates = 250.*np.ones_like(t)*mean/np.mean(data.flux)
+    cRates = 250.*np.ones_like(t)*mean/np.mean(data.flux)"""
     #print "cRates = ", np.mean(cRates)
 
     #cRates = 250.*np.ones_like(t)
+    cRates = 290.*np.ones_like(t)
     tExp = (t - t[0])*24.*60.*60.
 
 
@@ -80,7 +81,7 @@ def ackbar(idx, data, params):
     trap_pop_s = min(trap_pop_s, nTrap_s)
     trap_pop_f = min(trap_pop_f, nTrap_f)
 
-    print "trap_pop_f", trap_pop_f
+    #print "trap_pop_f", trap_pop_f
 
     for i in range(len(tExp)):
         try:
