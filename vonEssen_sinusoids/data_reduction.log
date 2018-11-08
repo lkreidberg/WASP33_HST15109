@@ -36,6 +36,16 @@ free periods; free ackbar, crates = 290:  rms = 123 ppm, BIC 2895.82
     reduce number of sines to 2: rms = 173, BIC 4503.08479023
 add fourth sine? BIC is worse, lots of trouble finding best fit
 
+
+11/4/18:
+spec_lc : doesn't improve reduced chi-square to vary sine curve amplitude
+    fit didn't usually converge if all sine parameters are free
+    very different results for cRates constant versus free 
+
+mcmc for white light curve:
+    for 3 sines, a1 and a2 are super degenerate
+    for 2 sines, trap_pop_f is unconstrained
+
 TODO:
     fix amplitudes/periods for spectroscopic lc?
     fix ackbar parameters for spec lc?         

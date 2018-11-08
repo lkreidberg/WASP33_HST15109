@@ -152,8 +152,8 @@ class Data:
         par_order = {line['parameter']: i for i, line in enumerate(fit_par)}
         self.par_order = par_order
         self.nfree_param = nfree_param
-        self.dof = n - nfree_param 
-        self.npoints = n
+        self.npoints = len(self.time)
+        self.dof = self.npoints - nfree_param 
         self.lc_type = obs_par['lc_type']
         self.all_sys = None
         self.u1 = 0.

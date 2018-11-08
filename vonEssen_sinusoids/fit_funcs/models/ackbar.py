@@ -45,15 +45,14 @@ def ackbar(idx, data, params):
     t = data.time[idx]
 
     #cRates = 967.*np.ones_like(t)              #calculate this based on white light average (need to do better! FIXME) 
-    """mean = 12173979.5                                                           
-    cRates = 290.*np.ones_like(t)*mean/np.mean(data.flux)
-    cRates = 250.*np.ones_like(t)*mean/np.mean(data.flux)"""
+    mean = 12173979.5                                                           
+    #cRates = 225.*np.ones_like(t)#*np.mean(data.flux)/mean
+    cRates = 250.*np.ones_like(t)#*np.mean(data.flux)/mean
     #print "cRates = ", np.mean(cRates)
 
-    #cRates = 250.*np.ones_like(t)
-    cRates = 290.*np.ones_like(t)
+    ##cRates = 250.*np.ones_like(t)
+    #cRates = 290.*np.ones_like(t)
     tExp = (t - t[0])*24.*60.*60.
-
 
     exptime = data.exp_time
     dt0=0
