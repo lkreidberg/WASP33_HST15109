@@ -1,0 +1,59 @@
+10/22/18:
+fixing sinusoid periods on vonEssen values
+
+get better results with higher cRates value
+
+trap_pop_s	[588.19014122]
+trap_pop_f	[179.99213045]
+dTrap_s	[223.77671125] dTrap_f	[104.42700905]
+essena1	[0.00090363]
+essenphi1	[3.71351613]
+essena2	[0.00060835]
+essenphi2	[4.89530514]
+essena3	[0.00033224]
+essenphi3	[3.07993537]
+
+ --> white light rms = 132 ppm (cRates = 290)
+
+
+higher cRates gives reasonable fits
+also get good fits for varying cRates with actual count rate
+
+
+emission spectrum levels off at redder wavelengths? fit_2018_10_22_16:07.txt
+(but some fits aren't great)
+
+adding three-component sinusoid (with variable periods)
+
+11/3/18:
+got three-component sinusoid (with variable periods) working
+(fixed cRates on 250 for white lc fit)
+
+white light:
+essen periods; free ackbar, crates = 250:  rms = 131 ppm
+essen periods; free ackbar, crates = 290:  rms = 135 ppm, BIC 3312.88
+free periods; free ackbar, crates = 290:  rms = 123 ppm, BIC 2895.82
+    reduce number of sines to 2: rms = 173, BIC 4503.08479023
+add fourth sine? BIC is worse, lots of trouble finding best fit
+
+
+11/4/18:
+spec_lc : doesn't improve reduced chi-square to vary sine curve amplitude
+    fit didn't usually converge if all sine parameters are free
+    very different results for cRates constant versus free 
+
+mcmc for white light curve:
+    for 3 sines, a1 and a2 are super degenerate
+    for 2 sines, trap_pop_f is unconstrained
+
+TODO:
+    fix amplitudes/periods for spectroscopic lc?
+    fix ackbar parameters for spec lc?         
+    are you getting weird results from letting cRates vary as f(lambda)?
+
+    white light mcmc
+    spec light mcmc
+
+    same for G141
+        
+        
