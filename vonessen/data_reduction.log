@@ -1,0 +1,170 @@
+11/03/2017:
+downloaded data
+remember to delete files.pic from config directory to read in new files!
+
+11/06/2017:
+fixed wavelength shift (first exposure was staring mode to get right buffer dumps)
+working on getting scatter down - made window bigger. much better!
+
+
+11/07/2017:
+looked at spectroscopic lightcurves -- something is wrong with the binning
+
+
+05.30.2018
+refactoring fitting code completely
+
+6.15.2018
+FOUND ECLIPSE IN WHITE LIGHT CURVE HOOORAY. good baseline, depth ~ 7e-4
+
+06.18.2018
+copied over extract.py from HIP41378 analysis, which corrected wavelength problem
+    (I think there was a postarg issue)
+
+changing window size:
+    06_18_12_23
+    window = 100
+    rms obs, exp = 163, 23
+
+    06_18_12_28
+    window = 120
+    rms obs, exp = 163, 23
+    
+
+    06_18_12_35
+    window = 140
+    rms obs, exp = 167, 23
+
+spectroscopic light curves (window = 100, 06_18_12_23)
+
+they look pretty good with divide white! 
+    
+tried bigger window (300 pix) to see if rms goes down ... NOPE
+BUT : the divide_white model has a big offset (300 ppm) in eclipse depth
+     
+
+corrected error in the spectroscopic lc predicted rms
+(needed to include oversample_factor in estimate of error from
+    bin_spectroscopic.py because the error is a *weighted average*
+    -- shouldn't just be sqrt(N))
+
+08/23/18
+--------
+binned closer to native resolution of the spectrograph (~2 pix) ; 50 bins
+weird emission features that coincide with the star
+tried decorrelating against spectral position (as Haynes+ did): no improvement
+got analytic model working for least-squares fit to spectroscopic lc
+the analytic fit -> much closer to a blackbody over the full wavelength range
+the divide white model has weird "features" towards the blue
+used spectra from larger extraction box to see if it improves spec_lc precision
+    noteable difference in fit chisq when using larger aperture 
+     (06_18_12_35, window = 140)
+    better by 2x for redder wavelengths, worse at bluer wavelengths
+
+08/24/18
+-------
+reduced data with window = 200 pix
+08_24_19_08 : fits are much worse (lots of redchi2 > 5 for 50 bins)
+    probably because you run into a nearby star
+
+
+08/25/18
+--------
+try removing first/last up-the-ramp sample in data reduction - no improvement
+    08_25_09_43. white lc rms = 159 ppm
+
+back to window of 100, adding yshift diagnostic
+    08_25_12_53, white lc rms = 159 ppm
+    decorrelating against spectral+spatial shift, redchi2 = 50.48, rms = 152 ppm
+    decorrelating against spatial shift, redchi2 = 49.74, rms = 152 ppm
+    decorrelating against neither, redchi2 = 48.72, rms = 152 ppm
+
+--> does NOT help to decorrelate against position (when sine period/phase = fixed)
+
+let sine period/phase vary, replace v and v2 with decorrelation against xshift
+    looks good! rms = 132
+
+['constant', 'upstream_downstream', 'polynomial2',  'model_ramp', 'eclipse', 'sine2']
+ --> rms, redchi2 = 130, 38.89
+
+myfuncs = ['constant', 'upstream_downstream', 'model_ramp', 'eclipse', 'sine2', 'spatial_shift'] 
+ --> rms, redchi2 = 132, 39.08
+
+basically no difference between polynomial2 vs spatial_shift decorrelation!!
+    spectral shift doesn't help at all
+
+BUT -- emission spectrum doesn't look nearly as nice :(
+     fit_2018_08_25_13:50.txt
+
+tried fitting with polynomial2, spectrum has less scatter, looks more blackbody
+
+divide-white has weird systematic trend in spectrum (fit_2018_08_25_14:07.txt)
+    even though some of the light curve fits look ok
+
+for spec_lc, results for polynomial1 and polynomial2 are equivalent
+
+ackbar looks really good! but I tweaked the cRate parameter by hand ...
+    let t0 and sine parameters vary ... best rms yet! rms = 109
+
+try model_ramp with updated ephemeris and sine parameters -- not as good (136)
+try ackbar with spatial_shift instead of polynomial1 -- not as good
+
+ackbar looks good and gets very similar results to model_ramp, modulo
+    a constant offset of 150 ppm and better chisq
+
+test model_ramp with corrected ephemeris -- not as good as ackbar
+    but it looks like the polynomial1 model isn't the best fit ...
+
+tried higher frequency sine term (sine3) -- doesn't help 
+
+searched for helium 10830 feature: fit_2018_08_25_16:03.txt. NOTHING!
+
+
+08/26/2018
+---------
+ephemeris is discrepant with Zhang et al. 2017 by 4 mins ... hmmm
+
+
+08.29.18
+----------
+fit model_ramp for consistency with G141 analysis
+ran MCMC
+model ramp gives worse fit (MCMC uncertainties larger by 23%)
+model ramp eclipse depths are smaller by 280 ppm
+but ... mean-subtracted eclipse depths differ by less than 0.23 sigma on average
+    (0.19 sigma median)
+ackbar wins!
+
+
+08.30.18
+--------
+try fixing sine amplitudes for ackbar (mcmc_output_ackbar_fixamps)
+
+
+testing least squares fits for different assumptions about sinusoids
+  A  all sine2 params fixed on broadband values (fit_2018_08_30_13:50.txt)
+  B  sine2 amplitudes vary (fit_2018_08_30_13:52.txt)
+  C  all parameters vary (fit_2018_08_30_13:53.txt)
+
+A versus B -- redchi2 are indistinguishable, depths differ by 0.2 sigma on average
+A versus C -- A has better redchi2 (5% lower by median), depths differ by 0.5 sigma on average
+
+
+try making cRates wavelength dpeendent for ackbar (scaling based on different mean fluxes in each bin)
+if sine amplitudes are allow to vary with wavelength, the spectrum comes out flat (fit_2018_08_30_17:07.txt)
+
+
+09/04/18
+--------
+ran long mcmc for white light curve
+fp = 0.0006572025284097595 +/- 0.00014381896697629145
+
+try convolving spectrum with instrument psf (like Drake does)
+GP?
+dynesty?
+
+
+11/10/18
+-------
+good fit for von Essen sinusoids
+ackbar results are very weird: looks good when Crates is fixed, but odd results when it is propto count rate
