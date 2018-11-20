@@ -92,8 +92,10 @@ def main():
         model = Model(data, myfuncs)
         data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)
 
-        #data.err *= np.sqrt(model.chi2red)                                      
-        #data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)
+        #rescale errors so reduced chi square = 1
+        data.err *= np.sqrt(model.chi2red)                                      
+        data, model, params = lsq_fit(fit_par, data, flags, model, myfuncs)
+
         if flags['verbose'] == True: print "rms, chi2red = ", model.rms, model.chi2red
 
         #FIXME : make this automatic!

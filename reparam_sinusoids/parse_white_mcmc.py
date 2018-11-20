@@ -22,7 +22,7 @@ print "AHHHHHHHHHHH"
 
 if path == "mcmc_output_white/": 
     ndim = 17
-else: ndim = 17
+else: ndim = 14
 
 
 

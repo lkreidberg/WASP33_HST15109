@@ -62,10 +62,10 @@ def mcmc_fit(data, model, params, file_name, obs_par, fit_par):
     pos = [theta + 1e-5*np.random.randn(ndim) for i in range(nwalkers)]
 
     #sampler.run_mcmc(pos,5000)
-    sampler.run_mcmc(pos,10000)
+    sampler.run_mcmc(pos,20000)
     pickle.dump([data, params, sampler.chain], open("mcmc_out."+"{0:0.2f}".format(data.wavelength)+".p", "wb"))
 
-    samples = sampler.chain[:, 2000:, :].reshape((-1, ndim))
+    samples = sampler.chain[:, 4000:, :].reshape((-1, ndim))
     mcmc_output(samples, params, obs_par, fit_par, data)
 
     medians = []

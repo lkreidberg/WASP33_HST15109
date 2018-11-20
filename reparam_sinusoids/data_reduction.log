@@ -46,6 +46,14 @@ mcmc for white light curve:
     for 3 sines, a1 and a2 are super degenerate
     for 2 sines, trap_pop_f is unconstrained
 
+
+11/19/18:
+big MCMC for white light curve
+three sinusoids, ackbar, cRates = 290
+myfuncs = ['constant', 'upstream_downstream', 'polynomial1',  'ackbar', 'eclipse', 'sine2'] 
+using extracted_lc/08_25_12_53/lc_white.txt
+
+
 TODO:
     fix amplitudes/periods for spectroscopic lc?
     fix ackbar parameters for spec lc?         
